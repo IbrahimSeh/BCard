@@ -12,10 +12,12 @@ import {
 // import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import "./App.css";
+import "./css/App.css";
+import "./css/BCardFooter.css";
 import { useSelector } from "react-redux";
 import useLoggedIn from "./hooks/useLoggedIn";
 import Router from "./routes/Router";
+import BCardFooter from "./components/BCardFooter";
 // import MuiNavbar from "./components/Navbar/MuiNavbar";
 // import Router from "./routes/Router";
 
@@ -76,6 +78,7 @@ function App() {
           <Typography variant="h5" color="initial">
             the footer
           </Typography>
+          <BCardFooter />
         </footer>
       </Container>
     </ThemeProvider>
