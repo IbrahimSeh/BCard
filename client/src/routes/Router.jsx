@@ -6,6 +6,7 @@ import AboutPage from "../Pages/AboutPage";
 import LogInPage from "../Pages/LogInPage";
 import SignUpPage from "../Pages/SignUpPage";
 import UserProfilePage from "../Pages/UserProfilePage";
+import PageNotFound from "../Pages/PageNotFound";
 
 // import ReRenderPage from "../pages/ReRenderPage/ReRenderPage";
 // import UseMemoPage from "../pages/ReRenderPage/UseMemoPage";
@@ -30,6 +31,7 @@ const Router = () => {
       <Route path={ROUTES.LOGIN} element={<LogInPage />} />
       <Route path={ROUTES.SIGNUP} element={<SignUpPage />} />
       <Route path={ROUTES.PROFILE} element={<UserProfilePage />} />
+      <Route path="*" element={<PageNotFound />} />
 
       {/* <Route
         path={ROUTES.LOGOUT}

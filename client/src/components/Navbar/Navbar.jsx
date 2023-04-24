@@ -9,6 +9,7 @@ import {
   Typography,
   Container,
   MenuItem,
+  Avatar,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { NavLink } from "react-router-dom";
@@ -99,8 +100,8 @@ const Navbar = () => {
     <AppBar style={navbarstyle} position="static">
       <Container maxWidth="xl">
         <Toolbar>
-          <NavLink activeClassName="is-active" to="/Home">
-            <img style={imgStyle} src={logo} alt="BCard-Logo" />
+          <NavLink activeclassname="is-active" to="/Home">
+            <Avatar alt="Logo" src={logo} />
           </NavLink>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages
