@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { authActions } from "../redux/auth";
+import { authActions } from "../redux/Auth";
 import jwt_decode from "jwt-decode";
 
 

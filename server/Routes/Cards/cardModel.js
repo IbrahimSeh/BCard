@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const minAllowEmpty = require("../../services/validatorAllowEmpty");
 
 const cardSchema = new mongoose.Schema({
   title: {
@@ -21,8 +22,11 @@ const cardSchema = new mongoose.Schema({
   },
   state: {
     type: String,
-    minlength: 2,
-    maxlength: 255,
+    maxlength: 256,
+    validate: {
+      validator: minAllowEmpty(2),
+      message: "should be empty or minimum",
+    },
   },
   country: {
     type: String,
@@ -50,8 +54,11 @@ const cardSchema = new mongoose.Schema({
   },
   zipCode: {
     type: Number,
-    minlength: 1,
-    maxlength: 256,
+    maxlength: 99999999,
+    validate: {
+      validator: minAllowEmpty(1, "number"),
+      message: "should be empty or minimum",
+    },
   },
   phone: {
     type: String,
@@ -62,22 +69,25 @@ const cardSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    minlength: 5,
-    maxlength: 255,
+    minlength: 6,
+    maxlength: 256,
   },
   web: {
     type: String,
-    minlength: 5,
     maxlength: 255,
+    validate: {
+      validator: minAllowEmpty(5, "string"),
+      message: "should be empty or minimum",
+    },
   },
   image: {
     url: {
       type: String,
       required: true,
-      minlength: 2,
+      minlength: 6,
       maxlength: 1024,
     },
-    alt: { type: String, required: true, minlength: 2, maxlength: 256 },
+    alt: { type: String, required: true, minlength: 6, maxlength: 256 },
   },
   bizNumber: {
     type: String,

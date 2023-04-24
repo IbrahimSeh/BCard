@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
+import "./css/Navbar.css";
 import {
   Container,
   ThemeProvider,
   createTheme,
   CssBaseline,
   CircularProgress,
-  Typography,
 } from "@mui/material";
+
+//redux
+import { useSelector } from "react-redux";
 
 /* toast */
 // import { ToastContainer } from "react-toastify";
@@ -14,10 +17,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "./css/App.css";
 import "./css/BCardFooter.css";
-import { useSelector } from "react-redux";
 import useLoggedIn from "./hooks/useLoggedIn";
 import Router from "./routes/Router";
 import BCardFooter from "./components/BCardFooter";
+import NavBar from "./components/Navbar/Navbar";
+
 // import MuiNavbar from "./components/Navbar/MuiNavbar";
 // import Router from "./routes/Router";
 
@@ -63,21 +67,11 @@ function App() {
       /> */}
       <Container>
         <header>
-          {/* <MuiNavbar /> */}
-          <Typography variant="h1" color="initial">
-            the header
-          </Typography>
+          <NavBar />
         </header>
-        {/* {isLoading ? <CircularProgress /> : <Router />} */}
-        <main>
-          <Typography variant="h3" color="initial">
-            the main
-          </Typography>
-        </main>
+        <main>{isLoading ? <CircularProgress /> : <Router />}</main>
+
         <footer>
-          <Typography variant="h5" color="initial">
-            the footer
-          </Typography>
           <BCardFooter />
         </footer>
       </Container>

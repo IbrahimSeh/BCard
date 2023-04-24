@@ -42,6 +42,17 @@ router.get("/my-cards", auth, async (req, res) => {
   }
 });
 
+router.get("/get-my-fav-cards", auth, async (req, res) => {
+  try {
+    let user = req.user;
+    const cards = await Card.find({ likes: user._id });
+    res.json(cards);
+  } catch (err) {
+    console.log(chalk.redBright(err));
+    return res.status(500).send(err);
+  }
+});
+
 /********** סעיף 10 **********/
 router.post("/", auth, async (req, res) => {
   try {
@@ -112,13 +123,13 @@ router.post("/", auth, async (req, res) => {
 router.put("/:id", auth, async (req, res) => {
   try {
     let user = req.user;
+    console.log("user", user);
     if (!user.biz && !user.isAdmin) {
       console.log(
         chalk.redBright("A non-business user attempted to create a card!")
       );
       return res.status(403).json("You are not authorize to edit card!");
     }
-
     let card = req.body;
     delete card._id;
     const { error } = validateCard(card);
@@ -128,15 +139,35 @@ router.put("/:id", auth, async (req, res) => {
       return res.status(400).send(errorMessage);
     }
 
+    // card = {
+    //   title: card.title,
+    //   subTitle: card.subTitle,
+    //   description: card.description,
+    //   address: card.address,
+    //   phone: card.phone,
+    //   image: {
+    //     url: card.url,
+    //     alt: card.alt,
+    //   },
+    // };
     card = {
       title: card.title,
       subTitle: card.subTitle,
       description: card.description,
-      address: card.address,
+      state: card.state,
+      country: card.country,
+      city: card.city,
+      street: card.street,
+      houseNumber: card.houseNumber,
+      zipCode: card.zipCode,
+      email: card.email,
+      web: card.web,
       phone: card.phone,
       image: {
-        url: card.url,
-        alt: card.alt,
+        url: card.url
+          ? card.url
+          : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+        alt: card.alt ? card.alt : "Pic Of Business Card",
       },
     };
 
@@ -154,6 +185,26 @@ router.put("/:id", auth, async (req, res) => {
       return res.status(404).send("No card with this ID in the database!");
     }
     card = await Card.findById(card._id);
+    return res.send(card);
+  } catch (error) {
+    console.log(chalk.redBright(error.message));
+    return res.status(500).send(error.message);
+  }
+});
+
+router.patch("/bizNumber/:bizId", auth, async (req, res) => {
+  try {
+    let user = req.user;
+    if (!user.biz) {
+      console.log(
+        chalk.redBright("A non-business user attempted to create a card!")
+      );
+      return res.status(403).json("You are not authorize to edit card!");
+    }
+    // bizNumber: await generateBizNum(),
+    const card = await Card.findByIdAndUpdate(req.params.bizId, {
+      bizNumber: await generateBizNum(),
+    });
     return res.send(card);
   } catch (error) {
     console.log(chalk.redBright(error.message));

@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-function validateRegistration(user) {
+function validateEditUser(user) {
   const schema = Joi.object({
     firstName: Joi.string().min(2).max(256).required(),
     middleName: Joi.string().min(2).max(256).allow(""),
@@ -11,7 +11,6 @@ function validateRegistration(user) {
       .max(256)
       .required()
       .email({ tlds: { allow: false } }),
-    password: Joi.string().min(6).max(1024).required(),
     imageUrl: Joi.string().min(6).max(1024).allow(""),
     imageAlt: Joi.string().min(6).max(256).allow(""),
     state: Joi.string().min(2).max(256).allow(""),
@@ -26,4 +25,4 @@ function validateRegistration(user) {
   return schema.validate(user);
 }
 
-module.exports = validateRegistration;
+module.exports = validateEditUser;
