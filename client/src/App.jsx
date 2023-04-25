@@ -12,15 +12,17 @@ import {
 import { useSelector } from "react-redux";
 
 /* toast */
-// import { ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import "./css/BottomNavBar.css";
 import "./css/App.css";
 import "./css/BCardFooter.css";
+
 import useLoggedIn from "./hooks/useLoggedIn";
 import Router from "./routes/Router";
-import BCardFooter from "./components/BCardFooter";
 import NavBar from "./components/Navbar/Navbar";
+import BCardFooter from "./components/Footer/BCardFooter";
 
 // import MuiNavbar from "./components/Navbar/MuiNavbar";
 // import Router from "./routes/Router";
@@ -53,7 +55,7 @@ function App() {
   return (
     <ThemeProvider theme={isDarkTheme ? createTheme(dark) : createTheme(light)}>
       <CssBaseline />
-      {/* <ToastContainer
+      <ToastContainer
         position="top-center"
         autoClose={5000}
         hideProgressBar={false}
@@ -64,7 +66,7 @@ function App() {
         draggable
         pauseOnHover
         theme="colored"
-      /> */}
+      />
       <Container>
         <header>
           <NavBar />

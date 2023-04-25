@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { authActions } from "../redux/Auth";
 import jwt_decode from "jwt-decode";
 
+import ErrorSnackBar from "../services/ErrorSnackBar";
 
 const useLoggedIn = () => {
     const dispatch = useDispatch();
@@ -14,11 +15,10 @@ const useLoggedIn = () => {
             }
             await axios.get("/users/userInfo");
             const payload = jwt_decode(token);
-            console.log('payload = ' + JSON.stringify(payload));
+            console.log('payload in useLoggedIn = ' + JSON.stringify(payload));
             dispatch(authActions.login(payload));
         } catch (err) {
-            //server error
-            //invalid token
+            <ErrorSnackBar />
         }
     };
 };

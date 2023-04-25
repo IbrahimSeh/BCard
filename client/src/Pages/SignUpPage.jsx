@@ -33,19 +33,18 @@ const SignUpPage = () => {
     street: "",
     houseNumber: "",
     zip: "",
-    isBussiness: false,
   });
+
+  const [checked, setChecked] = useState(false);
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
+
   const navigate = useNavigate();
 
   const handleBtnClick = async (ev) => {
-    console.log("in handleBtnClick");
     try {
       const joiResponse = validateRegisterSchema(inputState);
       setInputsErrorsState(joiResponse);
-      console.log("joiResponse = " + JSON.stringify(joiResponse));
       if (joiResponse) {
-        console.log("joiResponse return");
         return;
       }
 
@@ -64,20 +63,25 @@ const SignUpPage = () => {
         street: inputState.street,
         houseNumber: inputState.houseNumber,
         zipCode: inputState.zip,
-        biz: inputState.isBussiness,
+        biz: checked,
       });
-      console.log("before navigate");
+
       navigate(ROUTES.LOGIN);
-      console.log("after navigate");
     } catch (err) {
       console.log("error from axios", err.response.data);
     }
   };
   const handleInputChange = (ev) => {
+    console.log("on handleInputChange");
     let newInputState = JSON.parse(JSON.stringify(inputState));
     newInputState[ev.target.id] = ev.target.value;
     setInputState(newInputState);
   };
+
+  const handleCheckBoxChange = (event) => {
+    setChecked(event.target.checked);
+  };
+
   return (
     <Container component="main" maxWidth="md">
       <Box
@@ -441,8 +445,9 @@ const SignUpPage = () => {
                   <Checkbox
                     name="isBussiness"
                     id="isBussiness"
-                    value={inputState.isBussiness}
-                    onChange={handleInputChange}
+                    checked={checked}
+                    onChange={handleCheckBoxChange}
+                    inputProps={{ "aria-label": "controlled" }}
                     color="primary"
                   />
                 }

@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-
+import BottomNavBar from "./BottomNavBar";
 const styles = {
   TypographyStyle: {
     color: "#9453a6",
@@ -12,6 +12,7 @@ const styles = {
 const BCardFooter = () => {
   return (
     <div className="the-footer">
+      <BottomNavBar />
       <Typography align="center" style={styles.TypographyStyle} variant="h4">
         R E A C T - M A T E R I A L U-I
       </Typography>
