@@ -31,6 +31,7 @@ const Router = () => {
       <Route path={ROUTES.LOGIN} element={<LogInPage />} />
       <Route path={ROUTES.SIGNUP} element={<SignUpPage />} />
       <Route path={ROUTES.PROFILE} element={<UserProfilePage />} />
+      <Route path={ROUTES.LOGOUT} element={<HomePage />} />
       <Route path="*" element={<PageNotFound />} />
 
       {/* <Route

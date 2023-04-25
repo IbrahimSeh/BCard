@@ -53,7 +53,7 @@ const authedPages = [
     url: ROUTES.PROFILE,
   },
   {
-    label: "Logout",
+    label: "LogOut",
     url: ROUTES.LOGOUT,
   },
 ];
@@ -84,12 +84,6 @@ const Navbar = () => {
   const logoutClick = () => {
     localStorage.clear();
     dispatch(authActions.logout());
-  };
-
-  const imgStyle = {
-    width: "70px",
-    height: "60px",
-    borderRadius: "10px",
   };
 
   const navbarstyle = {

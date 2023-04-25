@@ -17,14 +17,15 @@ const registerSchema = Joi.object({
         .min(2)
         .max(10)
         .required(),
-    imgUrl: Joi.string().pattern(new RegExp("(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)")),
-    imgAlt: Joi.string(),
-    state: Joi.string().pattern(new RegExp("[A-Z][a-z]+(?: +[A-Z][a-z]+)*")),
+    imgUrl: Joi.string().pattern(new RegExp("(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)")).allow(null, ''),
+    imgAlt: Joi.string().allow(null, ''),
+    state: Joi.string().pattern(new RegExp("[A-Z][a-z]+(?: +[A-Z][a-z]+)*")).allow(null, ''),
     country: Joi.string().min(2).max(100).required(),
     city: Joi.string().pattern(new RegExp("^[a-zA-Z]+(?: [\\s-][a-zA-Z]+)*$")).min(2).max(100).required(),
     street: Joi.string().min(2).max(100).required(),
-    houseNumber: Joi.string().pattern(new RegExp("(?!0)\\d[0-3]{0,2}[a-zA-Z]?\\/(?!0)\\d[0-9]{0,1}")).min(2).max(100).required(),
+    houseNumber: Joi.string().pattern(new RegExp("^[1-9]\\d*(?:[ -]?(?:[a-zA-Z]+|[1-9]\\d*))?$")).min(2).max(100).required(),
     zip: Joi.string().pattern(new RegExp("^\\d{5}(?:[-\\s]\\d{4})?$")),
+    isBussiness: Joi.boolean(),
 });
 
 const signupValidation = (userInput) =>

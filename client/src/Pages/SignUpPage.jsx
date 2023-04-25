@@ -33,42 +33,46 @@ const SignUpPage = () => {
     street: "",
     houseNumber: "",
     zip: "",
-    isBussiness: "",
+    isBussiness: false,
   });
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const navigate = useNavigate();
-  const handleBtnClick = () => {
-    console.log("on handleBtnClick");
+
+  const handleBtnClick = async (ev) => {
+    console.log("in handleBtnClick");
+    try {
+      const joiResponse = validateRegisterSchema(inputState);
+      setInputsErrorsState(joiResponse);
+      console.log("joiResponse = " + JSON.stringify(joiResponse));
+      if (joiResponse) {
+        console.log("joiResponse return");
+        return;
+      }
+
+      await axios.post("/users/register", {
+        firstName: inputState.firstName,
+        middleName: inputState.middleName,
+        lastName: inputState.lastName,
+        phone: inputState.phone,
+        email: inputState.email,
+        password: inputState.password,
+        imageUrl: inputState.imageUrl,
+        imageAlt: inputState.imageAlt,
+        state: inputState.state,
+        country: inputState.country,
+        city: inputState.city,
+        street: inputState.street,
+        houseNumber: inputState.houseNumber,
+        zipCode: inputState.zip,
+        biz: inputState.isBussiness,
+      });
+      console.log("before navigate");
+      navigate(ROUTES.LOGIN);
+      console.log("after navigate");
+    } catch (err) {
+      console.log("error from axios", err.response.data);
+    }
   };
-  // const handleBtnClick = async (ev) => {
-  //   try {
-  //     const joiResponse = validateRegisterSchema(inputState);
-  //     setInputsErrorsState(joiResponse);
-  //     if (joiResponse) {
-  //       return;
-  //     }
-  //     await axios.post("/users/register", {
-  //       firstName: inputState.firstName,
-  //       middleName: inputState.middleName,
-  //       lastName: inputState.lastName,
-  //       phone: inputState.phone,
-  //       email: inputState.email,
-  //       password: inputState.password,
-  //       imageUrl: inputState.imageUrl,
-  //       imageAlt: inputState.imageAlt,
-  //       state: inputState.state,
-  //       country: inputState.country,
-  //       city: inputState.city,
-  //       street: inputState.street,
-  //       houseNumber: inputState.houseNumber,
-  //       zipCode: inputState.zip,
-  //       biz: inputState.isBussiness,
-  //     });
-  //     navigate(ROUTES.LOGIN);
-  //   } catch (err) {
-  //     console.log("error from axios", err.response.data);
-  //   }
-  // };
   const handleInputChange = (ev) => {
     let newInputState = JSON.parse(JSON.stringify(inputState));
     newInputState[ev.target.id] = ev.target.value;
@@ -395,9 +399,9 @@ const SignUpPage = () => {
                 value={inputState.houseNumber}
                 onChange={handleInputChange}
               />
-              {inputsErrorsState && inputsErrorsState.housenumber && (
+              {inputsErrorsState && inputsErrorsState.houseNumber && (
                 <Alert severity="warning">
-                  {inputsErrorsState.housenumber.map((item) => (
+                  {inputsErrorsState.houseNumber.map((item) => (
                     <div key={"housenumber-errors" + item}>
                       {item.includes("pattern:")
                         ? item.split("pattern:")[0] + "pattern"
@@ -458,7 +462,11 @@ const SignUpPage = () => {
 
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link
+                href="http://localhost:3000/login"
+                variant="body2"
+                underline="hover"
+              >
                 Already have an account? Sign in
               </Link>
             </Grid>
