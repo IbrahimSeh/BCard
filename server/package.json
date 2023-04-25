@@ -24,6 +24,7 @@
     "lodash": "^4.17.21",
     "mongoose": "^6.1.4",
     "morgan": "^1.10.0",
+    "node-module": "^2.0.0",
     "node-modules": "^1.0.1"
   },
   "devDependencies": {

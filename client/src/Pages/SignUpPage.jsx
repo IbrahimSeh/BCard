@@ -37,23 +37,38 @@ const SignUpPage = () => {
   });
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const navigate = useNavigate();
-  const handleBtnClick = async (ev) => {
-    try {
-      const joiResponse = validateRegisterSchema(inputState);
-      setInputsErrorsState(joiResponse);
-      if (joiResponse) {
-        return;
-      }
-      await axios.post("/users/register", {
-        name: inputState.firstName + " " + inputState.lastName,
-        email: inputState.email,
-        password: inputState.password,
-      });
-      navigate(ROUTES.LOGIN);
-    } catch (err) {
-      console.log("error from axios", err.response.data);
-    }
+  const handleBtnClick = () => {
+    console.log("on handleBtnClick");
   };
+  // const handleBtnClick = async (ev) => {
+  //   try {
+  //     const joiResponse = validateRegisterSchema(inputState);
+  //     setInputsErrorsState(joiResponse);
+  //     if (joiResponse) {
+  //       return;
+  //     }
+  //     await axios.post("/users/register", {
+  //       firstName: inputState.firstName,
+  //       middleName: inputState.middleName,
+  //       lastName: inputState.lastName,
+  //       phone: inputState.phone,
+  //       email: inputState.email,
+  //       password: inputState.password,
+  //       imageUrl: inputState.imageUrl,
+  //       imageAlt: inputState.imageAlt,
+  //       state: inputState.state,
+  //       country: inputState.country,
+  //       city: inputState.city,
+  //       street: inputState.street,
+  //       houseNumber: inputState.houseNumber,
+  //       zipCode: inputState.zip,
+  //       biz: inputState.isBussiness,
+  //     });
+  //     navigate(ROUTES.LOGIN);
+  //   } catch (err) {
+  //     console.log("error from axios", err.response.data);
+  //   }
+  // };
   const handleInputChange = (ev) => {
     let newInputState = JSON.parse(JSON.stringify(inputState));
     newInputState[ev.target.id] = ev.target.value;
@@ -93,7 +108,11 @@ const SignUpPage = () => {
               {inputsErrorsState && inputsErrorsState.firstName && (
                 <Alert severity="warning">
                   {inputsErrorsState.firstName.map((item) => (
-                    <div key={"firstName-errors" + item}>{item}</div>
+                    <div key={"firstName-errors" + item}>
+                      {item.includes("pattern:")
+                        ? item.split("pattern:")[0] + "pattern"
+                        : item}
+                    </div>
                   ))}
                 </Alert>
               )}
@@ -113,7 +132,11 @@ const SignUpPage = () => {
               {inputsErrorsState && inputsErrorsState.middleName && (
                 <Alert severity="warning">
                   {inputsErrorsState.middleName.map((item) => (
-                    <div key={"middleName-errors" + item}>{item}</div>
+                    <div key={"middleName-errors" + item}>
+                      {item.includes("pattern:")
+                        ? item.split("pattern:")[0] + "pattern"
+                        : item}
+                    </div>
                   ))}
                 </Alert>
               )}
@@ -133,7 +156,11 @@ const SignUpPage = () => {
               {inputsErrorsState && inputsErrorsState.lastName && (
                 <Alert severity="warning">
                   {inputsErrorsState.lastName.map((item) => (
-                    <div key={"lastName-errors" + item}>{item}</div>
+                    <div key={"lastName-errors" + item}>
+                      {item.includes("pattern:")
+                        ? item.split("pattern:")[0] + "pattern"
+                        : item}
+                    </div>
                   ))}
                 </Alert>
               )}
@@ -153,7 +180,11 @@ const SignUpPage = () => {
               {inputsErrorsState && inputsErrorsState.phone && (
                 <Alert severity="warning">
                   {inputsErrorsState.phone.map((item) => (
-                    <div key={"phone-errors" + item}>{item}</div>
+                    <div key={"phone-errors" + item}>
+                      {item.includes("pattern:")
+                        ? item.split("pattern:")[0] + "pattern"
+                        : item}
+                    </div>
                   ))}
                 </Alert>
               )}
@@ -174,7 +205,11 @@ const SignUpPage = () => {
               {inputsErrorsState && inputsErrorsState.email && (
                 <Alert severity="warning">
                   {inputsErrorsState.email.map((item) => (
-                    <div key={"email-errors" + item}>{item}</div>
+                    <div key={"email-errors" + item}>
+                      {item.includes("pattern:")
+                        ? item.split("pattern:")[0] + "pattern"
+                        : item}
+                    </div>
                   ))}
                 </Alert>
               )}
@@ -195,7 +230,11 @@ const SignUpPage = () => {
               {inputsErrorsState && inputsErrorsState.password && (
                 <Alert severity="warning">
                   {inputsErrorsState.password.map((item) => (
-                    <div key={"password-errors" + item}>{item}</div>
+                    <div key={"password-errors" + item}>
+                      {item.includes("pattern:")
+                        ? item.split("pattern:")[0] + "pattern"
+                        : item}
+                    </div>
                   ))}
                 </Alert>
               )}
@@ -215,7 +254,11 @@ const SignUpPage = () => {
               {inputsErrorsState && inputsErrorsState.imgUrl && (
                 <Alert severity="warning">
                   {inputsErrorsState.imgUrl.map((item) => (
-                    <div key={"imgUrl-errors" + item}>{item}</div>
+                    <div key={"imgUrl-errors" + item}>
+                      {item.includes("pattern:")
+                        ? item.split("pattern:")[0] + "pattern"
+                        : item}
+                    </div>
                   ))}
                 </Alert>
               )}
@@ -235,7 +278,11 @@ const SignUpPage = () => {
               {inputsErrorsState && inputsErrorsState.imgAlt && (
                 <Alert severity="warning">
                   {inputsErrorsState.imgAlt.map((item) => (
-                    <div key={"imgAlt-errors" + item}>{item}</div>
+                    <div key={"imgAlt-errors" + item}>
+                      {item.includes("pattern:")
+                        ? item.split("pattern:")[0] + "pattern"
+                        : item}
+                    </div>
                   ))}
                 </Alert>
               )}
@@ -255,7 +302,11 @@ const SignUpPage = () => {
               {inputsErrorsState && inputsErrorsState.state && (
                 <Alert severity="warning">
                   {inputsErrorsState.state.map((item) => (
-                    <div key={"state-errors" + item}>{item}</div>
+                    <div key={"state-errors" + item}>
+                      {item.includes("pattern:")
+                        ? item.split("pattern:")[0] + "pattern"
+                        : item}
+                    </div>
                   ))}
                 </Alert>
               )}
@@ -275,7 +326,11 @@ const SignUpPage = () => {
               {inputsErrorsState && inputsErrorsState.country && (
                 <Alert severity="warning">
                   {inputsErrorsState.country.map((item) => (
-                    <div key={"country-errors" + item}>{item}</div>
+                    <div key={"country-errors" + item}>
+                      {item.includes("pattern:")
+                        ? item.split("pattern:")[0] + "pattern"
+                        : item}
+                    </div>
                   ))}
                 </Alert>
               )}
@@ -295,7 +350,11 @@ const SignUpPage = () => {
               {inputsErrorsState && inputsErrorsState.city && (
                 <Alert severity="warning">
                   {inputsErrorsState.city.map((item) => (
-                    <div key={"city-errors" + item}>{item}</div>
+                    <div key={"city-errors" + item}>
+                      {item.includes("pattern:")
+                        ? item.split("pattern:")[0] + "pattern"
+                        : item}
+                    </div>
                   ))}
                 </Alert>
               )}
@@ -315,7 +374,11 @@ const SignUpPage = () => {
               {inputsErrorsState && inputsErrorsState.street && (
                 <Alert severity="warning">
                   {inputsErrorsState.street.map((item) => (
-                    <div key={"street-errors" + item}>{item}</div>
+                    <div key={"street-errors" + item}>
+                      {item.includes("pattern:")
+                        ? item.split("pattern:")[0] + "pattern"
+                        : item}
+                    </div>
                   ))}
                 </Alert>
               )}
@@ -335,7 +398,11 @@ const SignUpPage = () => {
               {inputsErrorsState && inputsErrorsState.housenumber && (
                 <Alert severity="warning">
                   {inputsErrorsState.housenumber.map((item) => (
-                    <div key={"housenumber-errors" + item}>{item}</div>
+                    <div key={"housenumber-errors" + item}>
+                      {item.includes("pattern:")
+                        ? item.split("pattern:")[0] + "pattern"
+                        : item}
+                    </div>
                   ))}
                 </Alert>
               )}
@@ -354,7 +421,11 @@ const SignUpPage = () => {
               {inputsErrorsState && inputsErrorsState.zip && (
                 <Alert severity="warning">
                   {inputsErrorsState.zip.map((item) => (
-                    <div key={"zip-errors" + item}>{item}</div>
+                    <div key={"zip-errors" + item}>
+                      {item.includes("pattern:")
+                        ? item.split("pattern:")[0] + "pattern"
+                        : item}
+                    </div>
                   ))}
                 </Alert>
               )}
@@ -380,7 +451,7 @@ const SignUpPage = () => {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2, bgcolor: "#945a61" }}
-            // onClick={handleBtnClick}
+            onClick={handleBtnClick}
           >
             Sign Up
           </Button>
