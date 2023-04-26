@@ -25,7 +25,6 @@ const LogInPage = () => {
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
 
   const loggedIn = useLoggedIn();
-  console.log("loggedIn = " + loggedIn);
   const navigate = useNavigate();
 
   const handleBtnClick = async (ev) => {

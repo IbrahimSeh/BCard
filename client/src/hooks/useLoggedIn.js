@@ -3,8 +3,6 @@ import { useDispatch } from "react-redux";
 import { authActions } from "../redux/Auth";
 import jwt_decode from "jwt-decode";
 
-import ErrorSnackBar from "../services/ErrorSnackBar";
-
 const useLoggedIn = () => {
     const dispatch = useDispatch();
     return async () => {
@@ -18,7 +16,7 @@ const useLoggedIn = () => {
             console.log('payload in useLoggedIn = ' + JSON.stringify(payload));
             dispatch(authActions.login(payload));
         } catch (err) {
-            <ErrorSnackBar />
+            console.log('error from useloggedIn');
         }
     };
 };

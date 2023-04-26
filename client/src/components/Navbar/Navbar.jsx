@@ -19,6 +19,7 @@ import SearchNavBar from "./SearchNavBar";
 import ROUTES from "../../routes/ROUTES";
 import NavLinkComponent from "./NavLinkComponent";
 import { authActions } from "../../redux/Auth";
+import IsBussiness from "../../hooks/useIsBiz";
 
 import logo from "../../assets/images/BCardLogo2.png";
 import userAvatar from "../../assets/images/userAvatar.jpg";
@@ -67,21 +68,21 @@ const anyUserConnected = [
   },
 ];
 
-//admin/biz pages
-// const adminBizPages = [
-//   {
-//     label: "Create",
-//     url: ROUTES.REGISTER,
-//   },
-// ];
+// MyCardsPage;
+// logged in as biz
+const userAsBiz = [
+  {
+    label: "MY CARDS",
+    url: ROUTES.MYCARDS,
+  },
+];
 
 const Navbar = () => {
   const isLoggedIn = useSelector(
     (bigPieBigState) => bigPieBigState.authSlice.isLoggedIn
   );
-  const isBussiness = useSelector(
-    (bigPieBigState) => bigPieBigState.authSlice.isLoggedIn
-  );
+
+  let responseIsBiz = IsBussiness();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const dispatch = useDispatch();
@@ -97,6 +98,7 @@ const Navbar = () => {
   const logoutClick = () => {
     localStorage.clear();
     dispatch(authActions.logout());
+    responseIsBiz = false;
   };
 
   const navbarstyle = {
@@ -118,6 +120,11 @@ const Navbar = () => {
               ))}
             {isLoggedIn
               ? anyUserConnected.map((page) => (
+                  <NavLinkComponent key={page.url} {...page} />
+                ))
+              : ""}
+            {responseIsBiz
+              ? userAsBiz.map((page) => (
                   <NavLinkComponent key={page.url} {...page} />
                 ))
               : ""}
