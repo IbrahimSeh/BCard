@@ -15,7 +15,6 @@ import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import "./css/BottomNavBar.css";
 import "./css/App.css";
 import "./css/BCardFooter.css";
 

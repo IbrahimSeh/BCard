@@ -6,6 +6,8 @@ import AboutPage from "../Pages/AboutPage";
 import LogInPage from "../Pages/LogInPage";
 import SignUpPage from "../Pages/SignUpPage";
 import UserProfilePage from "../Pages/UserProfilePage";
+import FavCardsPage from "../Pages/FavCardsPage";
+import MyCardsPage from "../Pages/MyCardsPage";
 import PageNotFound from "../Pages/PageNotFound";
 
 // import ReRenderPage from "../pages/ReRenderPage/ReRenderPage";
@@ -32,8 +34,10 @@ const Router = () => {
       <Route path={ROUTES.SIGNUP} element={<SignUpPage />} />
       <Route path={ROUTES.PROFILE} element={<UserProfilePage />} />
       <Route path={ROUTES.LOGOUT} element={<HomePage />} />
-      <Route path="*" element={<PageNotFound />} />
+      <Route path={ROUTES.FAVCARDS} element={<FavCardsPage />} />
+      <Route path={ROUTES.MYCARDS} element={<MyCardsPage />} />
 
+      <Route path="*" element={<PageNotFound />} />
       {/* <Route
         path={ROUTES.LOGOUT}
         element={<ProtectedRoute element={<LogoutPage />} />}

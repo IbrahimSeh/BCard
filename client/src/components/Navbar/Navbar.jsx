@@ -21,6 +21,7 @@ import NavLinkComponent from "./NavLinkComponent";
 import { authActions } from "../../redux/Auth";
 
 import logo from "../../assets/images/BCardLogo2.png";
+import userAvatar from "../../assets/images/userAvatar.jpg";
 
 // access to all
 const pages = [
@@ -49,12 +50,20 @@ const notAuthPages = [
 //logged in users
 const authedPages = [
   {
-    label: "Profile",
-    url: ROUTES.PROFILE,
-  },
-  {
     label: "LogOut",
     url: ROUTES.LOGOUT,
+  },
+  {
+    label: <Avatar alt="user Avatar" src={userAvatar} />,
+    url: ROUTES.PROFILE,
+  },
+];
+
+//logged in any users
+const anyUserConnected = [
+  {
+    label: "FAV CARDS",
+    url: ROUTES.FAVCARDS,
   },
 ];
 
@@ -70,6 +79,10 @@ const Navbar = () => {
   const isLoggedIn = useSelector(
     (bigPieBigState) => bigPieBigState.authSlice.isLoggedIn
   );
+  const isBussiness = useSelector(
+    (bigPieBigState) => bigPieBigState.authSlice.isLoggedIn
+  );
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const dispatch = useDispatch();
 
@@ -103,21 +116,17 @@ const Navbar = () => {
               .map((page) => (
                 <NavLinkComponent key={page.url} {...page} />
               ))}
+            {isLoggedIn
+              ? anyUserConnected.map((page) => (
+                  <NavLinkComponent key={page.url} {...page} />
+                ))
+              : ""}
           </Box>
 
           <SearchNavBar />
 
           <Box sx={{ my: 2, p: 1 }}>
-            {/* <Typography sx={{ display: { xs: "none", md: "inline" } }}>
-              {isDarkTheme ? "Dark" : "Light"} Mode
-            </Typography> */}
-            {/* <IconButton>
-              <Typography sx={{ display: { xs: "none", md: "inline" } }}>
-                {isDarkTheme ? <DarkModeIcon /> : <LightModeIcon />}
-              </Typography>
-            </IconButton> */}
             <SwithMode />
-            {/* <Switch checked={isDarkTheme} onChange={changeTheme} /> */}
           </Box>
 
           {/* signin/notSignin navbar */}

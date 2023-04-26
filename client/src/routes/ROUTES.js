@@ -6,6 +6,8 @@ const ROUTES = {
     LOGIN: "/login",
     PROFILE: "/profile",
     LOGOUT: "/LogOut",
+    FAVCARDS: "/favcards",
+    MYCARDS: "/mycards",
 };
 
 export default ROUTES;
