@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Alert from "@mui/material/Alert";
 import { Link, useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -34,9 +35,20 @@ const LogInPage = () => {
       if (joiResponse) {
         return;
       }
+
       const { data } = await axios.post("/users/login", inputState);
       localStorage.setItem("token", data.token);
       loggedIn();
+
+      // console.log("data.token => " + data.token);
+      // const payload = JSON.stringify(jwt_decode(data.token));
+      //convert payload to string
+      // let stringPayload = "";
+      // for (let index = 0; index < payload.length; index++) {
+      //   stringPayload += payload[index];
+      // }
+      //  stringPayload.split('"')[3];
+
       //move to homepage
       navigate(ROUTES.HOME);
     } catch (err) {

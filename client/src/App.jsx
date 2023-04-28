@@ -40,10 +40,13 @@ const dark = {
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
+
   const loggedIn = useLoggedIn();
+
   useEffect(() => {
     (async () => {
-      await loggedIn();
+      const res = await loggedIn();
+      // console.log("res from app.jsx = " + JSON.stringify(res));
       setIsLoading(false);
     })();
   });

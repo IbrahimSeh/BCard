@@ -1,4 +1,6 @@
 import * as React from "react";
+import axios from "axios";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   AppBar,
@@ -19,7 +21,6 @@ import SearchNavBar from "./SearchNavBar";
 import ROUTES from "../../routes/ROUTES";
 import NavLinkComponent from "./NavLinkComponent";
 import { authActions } from "../../redux/Auth";
-import IsBussiness from "../../hooks/useIsBiz";
 
 import logo from "../../assets/images/BCardLogo2.png";
 import userAvatar from "../../assets/images/userAvatar.jpg";
@@ -78,11 +79,15 @@ const userAsBiz = [
 ];
 
 const Navbar = () => {
+  let responseIsBiz;
+
   const isLoggedIn = useSelector(
     (bigPieBigState) => bigPieBigState.authSlice.isLoggedIn
   );
 
-  let responseIsBiz = IsBussiness();
+  const isBussiness = useSelector(
+    (bigPieBigState) => bigPieBigState.authSlice.isLoggedIn
+  );
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const dispatch = useDispatch();
@@ -96,9 +101,9 @@ const Navbar = () => {
   };
 
   const logoutClick = () => {
-    localStorage.clear();
+    localStorage.removeItem("token");
     dispatch(authActions.logout());
-    responseIsBiz = false;
+    // responseIsBiz = false;
   };
 
   const navbarstyle = {
@@ -123,7 +128,7 @@ const Navbar = () => {
                   <NavLinkComponent key={page.url} {...page} />
                 ))
               : ""}
-            {responseIsBiz
+            {isBussiness
               ? userAsBiz.map((page) => (
                   <NavLinkComponent key={page.url} {...page} />
                 ))
