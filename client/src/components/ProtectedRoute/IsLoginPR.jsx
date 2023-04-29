@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ROUTES from "../../routes/ROUTES";

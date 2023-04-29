@@ -43,10 +43,10 @@ const Router = () => {
         element={<IsLoginPR element={<FavCardsPage />} />}
       />
 
-      {/* <Route
+      <Route
         path={ROUTES.MYCARDS}
         element={<IsLoginPR element={<IsBizPR element={<MyCardsPage />} />} />}
-      /> */}
+      />
 
       <Route path={ROUTES.SANDBOX} element={<SandBoxPage />} />
       <Route path="*" element={<PageNotFound />} />

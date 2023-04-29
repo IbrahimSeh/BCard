@@ -45,8 +45,7 @@ function App() {
 
   useEffect(() => {
     (async () => {
-      const res = await loggedIn();
-      // console.log("res from app.jsx = " + JSON.stringify(res));
+      await loggedIn();
       setIsLoading(false);
     })();
   });

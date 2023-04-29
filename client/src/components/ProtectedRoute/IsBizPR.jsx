@@ -1,24 +1,31 @@
 import { useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ROUTES from "../../routes/ROUTES";
+import { useEffect } from "react";
+import useBussiness from "../../hooks/useBussiness";
 
-const IsBizPR = ({ element, isBiz, isAdmin }) => {
-  const nav = useNavigate();
+const IsBizPR = ({ element, isBiz }) => {
   //* logic section
-  const isLoggedIn = useSelector((bigState) => bigState.authSlice.isLoggedIn);
-  const isBussiness = useSelector(
-    (bigPieBigState) => bigPieBigState.BussinessSlice.isBussiness
-  );
-  //* html section
+  const Bussiness = useBussiness();
+  let isBussiness;
 
-  if (isLoggedIn && isBussiness) {
+  useEffect(() => {
+    (async () => {
+      isBussiness = await Bussiness();
+    })();
+  });
+
+  console.log("isBussiness = " + isBussiness);
+  //* html section
+  const token = localStorage.getItem("token");
+  if (token && isBussiness) {
     console.log("in IsBizPR u r login && biz");
     return element;
   } else {
     console.log("in proRoute u r NOt login");
-    toast.warning("you must login as bussiness user first");
-    return nav(-1);
+    toast.warning("you must login as Biz first");
+    return <Navigate to={ROUTES.HOME} />;
   }
 };
 export default IsBizPR;
