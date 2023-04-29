@@ -14,6 +14,9 @@ const BussinessSlice = createSlice({
         setToBussiness(state) {
             state.isBussiness = true;
         },
+        setToNotBussiness(state) {
+            state.isBussiness = false;
+        },
     },
 });
 

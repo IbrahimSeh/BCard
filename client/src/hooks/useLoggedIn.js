@@ -28,13 +28,10 @@ const useLoggedIn = () => {
 
             // convert string to boolean
             flagIsBiz = (String(isBizFromData).toLowerCase() === 'true');
-            console.log('flagIsBiz = ' + flagIsBiz);
 
-            // console.log('biz = ' + ((stringTxt.split('biz')[1]).split(',')[0]).split(':')[1]);
-            // console.log('data from axios.get => ' + JSON.stringify(data));
+            // update redux about user isBiz flag changeIsBussiness
+            flagIsBiz ? dispatch(BizActions.setToBussiness(flagIsBiz)) : dispatch(BizActions.setToNotBussiness(flagIsBiz));
 
-            // update redux about user isBiz flag
-            dispatch(BizActions.setToBussiness(flagIsBiz));
             return data;
         } catch (err) {
             //server error

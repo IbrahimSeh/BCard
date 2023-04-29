@@ -1,6 +1,4 @@
 import * as React from "react";
-import axios from "axios";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   AppBar,
@@ -21,6 +19,7 @@ import SearchNavBar from "./SearchNavBar";
 import ROUTES from "../../routes/ROUTES";
 import NavLinkComponent from "./NavLinkComponent";
 import { authActions } from "../../redux/Auth";
+import { BizActions } from "../../redux/BussinessUser";
 
 import logo from "../../assets/images/BCardLogo2.png";
 import userAvatar from "../../assets/images/userAvatar.jpg";
@@ -79,14 +78,12 @@ const userAsBiz = [
 ];
 
 const Navbar = () => {
-  let responseIsBiz;
-
   const isLoggedIn = useSelector(
     (bigPieBigState) => bigPieBigState.authSlice.isLoggedIn
   );
 
   const isBussiness = useSelector(
-    (bigPieBigState) => bigPieBigState.authSlice.isLoggedIn
+    (bigPieBigState) => bigPieBigState.BussinessSlice.isBussiness
   );
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -103,6 +100,7 @@ const Navbar = () => {
   const logoutClick = () => {
     localStorage.removeItem("token");
     dispatch(authActions.logout());
+    dispatch(BizActions.setToNotBussiness());
     // responseIsBiz = false;
   };
 
