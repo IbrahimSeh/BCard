@@ -90,7 +90,7 @@ const Navbar = () => {
   const isLoggedIn = useSelector(
     (bigPieBigState) => bigPieBigState.authSlice.isLoggedIn
   );
-
+  console.log("isLoggedIn " + isLoggedIn);
   const isBussiness = useSelector(
     (bigPieBigState) => bigPieBigState.BussinessSlice.isBussiness
   );
