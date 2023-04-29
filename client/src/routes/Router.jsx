@@ -8,6 +8,7 @@ import SignUpPage from "../Pages/SignUpPage";
 import UserProfilePage from "../Pages/UserProfilePage";
 import FavCardsPage from "../Pages/FavCardsPage";
 import MyCardsPage from "../Pages/MyCardsPage";
+import SandBoxPage from "../Pages/SandBoxPage";
 import PageNotFound from "../Pages/PageNotFound";
 
 // import ReRenderPage from "../pages/ReRenderPage/ReRenderPage";
@@ -36,6 +37,7 @@ const Router = () => {
       <Route path={ROUTES.LOGOUT} element={<HomePage />} />
       <Route path={ROUTES.FAVCARDS} element={<FavCardsPage />} />
       <Route path={ROUTES.MYCARDS} element={<MyCardsPage />} />
+      <Route path={ROUTES.SANDBOX} element={<SandBoxPage />} />
 
       <Route path="*" element={<PageNotFound />} />
       {/* <Route

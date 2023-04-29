@@ -20,9 +20,12 @@ import ROUTES from "../../routes/ROUTES";
 import NavLinkComponent from "./NavLinkComponent";
 import { authActions } from "../../redux/Auth";
 import { BizActions } from "../../redux/BussinessUser";
+import { AdminActions } from "../../redux/AdminUser";
 
 import logo from "../../assets/images/BCardLogo2.png";
 import userAvatar from "../../assets/images/userAvatar.jpg";
+import logoutAvatar from "../../assets/images/logout.png";
+// import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
 // access to all
 const pages = [
@@ -51,7 +54,7 @@ const notAuthPages = [
 //logged in users
 const authedPages = [
   {
-    label: "LogOut",
+    label: <Avatar alt="logout Avatar" src={logoutAvatar} />,
     url: ROUTES.LOGOUT,
   },
   {
@@ -68,12 +71,18 @@ const anyUserConnected = [
   },
 ];
 
-// MyCardsPage;
 // logged in as biz
 const userAsBiz = [
   {
     label: "MY CARDS",
     url: ROUTES.MYCARDS,
+  },
+];
+
+const userAsAdmin = [
+  {
+    label: "SANDBOX",
+    url: ROUTES.SANDBOX,
   },
 ];
 
@@ -84,6 +93,10 @@ const Navbar = () => {
 
   const isBussiness = useSelector(
     (bigPieBigState) => bigPieBigState.BussinessSlice.isBussiness
+  );
+
+  const isAdmin = useSelector(
+    (bigPieBigState) => bigPieBigState.AdminSlice.isAdmin
   );
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -101,7 +114,7 @@ const Navbar = () => {
     localStorage.removeItem("token");
     dispatch(authActions.logout());
     dispatch(BizActions.setToNotBussiness());
-    // responseIsBiz = false;
+    dispatch(AdminActions.setToNotAdmin());
   };
 
   const navbarstyle = {
@@ -109,7 +122,7 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar style={navbarstyle} position="static">
+    <AppBar style={navbarstyle} className="the-NavBar" position="static">
       <Container maxWidth="xl">
         <Toolbar>
           <NavLink activeclassname="is-active" to="/Home">
@@ -128,6 +141,11 @@ const Navbar = () => {
               : ""}
             {isBussiness
               ? userAsBiz.map((page) => (
+                  <NavLinkComponent key={page.url} {...page} />
+                ))
+              : ""}
+            {isAdmin
+              ? userAsAdmin.map((page) => (
                   <NavLinkComponent key={page.url} {...page} />
                 ))
               : ""}

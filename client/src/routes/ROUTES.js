@@ -8,6 +8,7 @@ const ROUTES = {
     LOGOUT: "",
     FAVCARDS: "/favcards",
     MYCARDS: "/mycards",
+    SANDBOX: "/sandbox",
 };
 
 export default ROUTES;

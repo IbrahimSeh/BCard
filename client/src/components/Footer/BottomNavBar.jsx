@@ -6,6 +6,7 @@ import ROUTES from "../../routes/ROUTES";
 import FooterNavLink from "../Footer/FooterNavLink";
 import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import PortraitRoundedIcon from "@mui/icons-material/PortraitRounded";
 
 // access to all
 const pages = [
@@ -25,6 +26,15 @@ const anyUserConnected = [
   },
 ];
 
+//logged in as biz user
+const bizUserConnected = [
+  {
+    label: "MY CARDS",
+    url: ROUTES.MYCARDS,
+    icon: <PortraitRoundedIcon />,
+  },
+];
+
 const navbarstyle = {
   backgroundColor: "#0f0d35",
 };
@@ -32,6 +42,9 @@ const navbarstyle = {
 const BottomNavBar = () => {
   const isLoggedIn = useSelector(
     (bigPieBigState) => bigPieBigState.authSlice.isLoggedIn
+  );
+  const isBussiness = useSelector(
+    (bigPieBigState) => bigPieBigState.BussinessSlice.isBussiness
   );
 
   return (
@@ -46,6 +59,11 @@ const BottomNavBar = () => {
               ))}
             {isLoggedIn
               ? anyUserConnected.map((page) => (
+                  <FooterNavLink key={page.url} {...page} />
+                ))
+              : ""}
+            {isBussiness
+              ? bizUserConnected.map((page) => (
                   <FooterNavLink key={page.url} {...page} />
                 ))
               : ""}

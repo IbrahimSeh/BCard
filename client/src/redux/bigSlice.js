@@ -4,10 +4,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import darkThemeReducer from "./darkTheme";
 import authReducer from "./Auth";
 import BussinessReducer from "./BussinessUser"
+import AdminReducer from "./AdminUser"
 
 const store = configureStore({
     reducer: {
         // counterSlice: counterReducer,
+        AdminSlice: AdminReducer,
         BussinessSlice: BussinessReducer,
         darkThemeSlice: darkThemeReducer,
         authSlice: authReducer,
