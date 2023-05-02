@@ -9,6 +9,7 @@ import UserProfilePage from "../Pages/UserProfilePage";
 import FavCardsPage from "../Pages/FavCardsPage";
 import MyCardsPage from "../Pages/MyCardsPage";
 import SandBoxPage from "../Pages/SandBoxPage";
+import CreateCard from "../Pages/CreateCard";
 import PageNotFound from "../Pages/PageNotFound";
 import IsLoginPR from "../components/ProtectedRoute/IsLoginPR";
 import IsBizPR from "../components/ProtectedRoute/IsBizPR";
@@ -45,7 +46,9 @@ const Router = () => {
       <Route
         path={ROUTES.MYCARDS}
         element={<IsLoginPR element={<IsBizPR element={<MyCardsPage />} />} />}
-      />
+      ></Route>
+
+      <Route path={ROUTES.CREATECARD} element={<CreateCard />} />
       <Route
         path={ROUTES.SANDBOX}
         element={
