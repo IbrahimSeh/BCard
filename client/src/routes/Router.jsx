@@ -12,6 +12,7 @@ import SandBoxPage from "../Pages/SandBoxPage";
 import PageNotFound from "../Pages/PageNotFound";
 import IsLoginPR from "../components/ProtectedRoute/IsLoginPR";
 import IsBizPR from "../components/ProtectedRoute/IsBizPR";
+import IsAdminPR from "../components/ProtectedRoute/IsAdminPR";
 
 // import ReRenderPage from "../pages/ReRenderPage/ReRenderPage";
 // import UseMemoPage from "../pages/ReRenderPage/UseMemoPage";
@@ -37,18 +38,25 @@ const Router = () => {
       <Route path={ROUTES.SIGNUP} element={<SignUpPage />} />
       <Route path={ROUTES.PROFILE} element={<UserProfilePage />} />
       <Route path={ROUTES.LOGOUT} element={<HomePage />} />
-
       <Route
         path={ROUTES.FAVCARDS}
         element={<IsLoginPR element={<FavCardsPage />} />}
       />
-
       <Route
         path={ROUTES.MYCARDS}
         element={<IsLoginPR element={<IsBizPR element={<MyCardsPage />} />} />}
       />
+      <Route
+        path={ROUTES.SANDBOX}
+        element={
+          <IsLoginPR
+            element={
+              <IsBizPR element={<IsAdminPR element={<SandBoxPage />} />} />
+            }
+          />
+        }
+      />
 
-      <Route path={ROUTES.SANDBOX} element={<SandBoxPage />} />
       <Route path="*" element={<PageNotFound />} />
       {/* 
       <Route
