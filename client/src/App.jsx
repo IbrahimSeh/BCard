@@ -48,7 +48,7 @@ function App() {
       await loggedIn();
       setIsLoading(false);
     })();
-  });
+  }, []);
 
   const isDarkTheme = useSelector(
     (bigPie) => bigPie.darkThemeSlice.isDarkTheme

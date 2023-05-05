@@ -41,9 +41,10 @@ const CreateCard = () => {
       const joiResponse = validateCardSchema(inputState);
       setInputsErrorsState(joiResponse);
       if (joiResponse) {
+        console.log("return in joi");
         return;
       }
-
+      console.log("after joi");
       await axios.post("/cards/", {
         title: inputState.title,
         subTitle: inputState.subTitle,
@@ -60,10 +61,11 @@ const CreateCard = () => {
         url: inputState.url,
         alt: inputState.alt,
       });
-
+      console.log("after axios");
       navigate(ROUTES.LOGIN);
     } catch (err) {
-      console.log("error from axios", err.response.data);
+      //   console.log("error from axios", err.response.data);
+      console.log('error from create card post("/cards/)');
     }
   };
   const handleInputChange = (ev) => {

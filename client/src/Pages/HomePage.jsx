@@ -9,59 +9,73 @@ import useQueryParams from "../hooks/useQueryParams";
 import { useSelector } from "react-redux";
 
 const HomePage = () => {
+  console.log("in home page");
   const [originalCardsArr, setOriginalCardsArr] = useState(null);
   const [cardsArr, setCardsArr] = useState(null);
   const navigate = useNavigate();
   let qparams = useQueryParams();
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
+  console.log("payload = " + JSON.stringify(payload));
 
   useEffect(() => {
-    /*
-      useEffect cant handle async ()=>{}
-      this is why we use the old promise way
-    */
+    console.log("in useEffect homepage");
     axios
       .get("/cards/cards")
       .then(({ data }) => {
-        console.log("data", data);
+        // console.log("data", data);
         // setCardsArr(data);
         filterFunc(data);
       })
       .catch((err) => {
         console.log("err from axios", err);
-
         toast.error("Oops");
       });
-  });
+  }, []);
+
+  useEffect(() => {
+    console.log("in second useeffect");
+    filterFunc();
+  }, [qparams.filter]);
+
+  // console.log("originalCardsArr = " + JSON.stringify(originalCardsArr));
+
   const filterFunc = (data) => {
+    console.log("in filterFunc");
+
     if (!originalCardsArr && !data) {
+      console.log("filterFunc - (!originalCardsArr && !data)");
       return;
     }
+
     let filter = "";
+    // console.log("qparams.filter = " + qparams.filter);
     if (qparams.filter) {
+      console.log("qparams.filter = " + qparams.filter);
       filter = qparams.filter;
     }
+
     if (!originalCardsArr && data) {
       /*
         when component loaded and states not loaded
       */
+      console.log("when component loaded and states not loaded");
       setOriginalCardsArr(data);
       setCardsArr(data.filter((card) => card.title.startsWith(filter)));
+      console.log("cardsArr = " + cardsArr);
       return;
     }
     if (originalCardsArr) {
       /*
         when all loaded and states loaded
       */
+      console.log("when all loaded and states loaded");
       let newOriginalCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
       setCardsArr(
         newOriginalCardsArr.filter((card) => card.title.startsWith(filter))
       );
     }
   };
-  useEffect(() => {
-    filterFunc();
-  }, [qparams.filter]);
+
   const handleDeleteFromInitialCardsArr = async (id) => {
     // let newCardsArr = JSON.parse(JSON.stringify(cardsArr));
     // newCardsArr = newCardsArr.filter((item) => item.id != id);
@@ -84,7 +98,7 @@ const HomePage = () => {
   }
 
   return (
-    <Box>
+    <Box mt={3}>
       <Grid container spacing={2}>
         {cardsArr.map((item) => (
           <Grid item xs={4} key={item._id + Date.now()}>
