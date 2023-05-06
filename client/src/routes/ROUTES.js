@@ -10,6 +10,9 @@ const ROUTES = {
     MYCARDS: "/mycards",
     SANDBOX: "/sandbox",
     CREATECARD: "/createcard",
+    CARDSPECIFICATION: "/cardspecification",
+    CARDEDIT: "/cardedit",
+
 };
 
 export default ROUTES;

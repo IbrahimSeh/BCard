@@ -7,23 +7,20 @@ import CardComponent from "../components/Card/CardComponent";
 import { toast } from "react-toastify";
 import useQueryParams from "../hooks/useQueryParams";
 import { useSelector } from "react-redux";
+import ROUTES from "../routes/ROUTES";
 
 const HomePage = () => {
-  console.log("in home page");
   const [originalCardsArr, setOriginalCardsArr] = useState(null);
   const [cardsArr, setCardsArr] = useState(null);
   const navigate = useNavigate();
   let qparams = useQueryParams();
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
-  console.log("payload = " + JSON.stringify(payload));
 
+  //first useEffect when page load
   useEffect(() => {
-    console.log("in useEffect homepage");
     axios
       .get("/cards/cards")
       .then(({ data }) => {
-        // console.log("data", data);
-        // setCardsArr(data);
         filterFunc(data);
       })
       .catch((err) => {
@@ -32,23 +29,18 @@ const HomePage = () => {
       });
   }, []);
 
+  //second useEffect evry time we make change on search
   useEffect(() => {
-    console.log("in second useeffect");
     filterFunc();
   }, [qparams.filter]);
 
-  // console.log("originalCardsArr = " + JSON.stringify(originalCardsArr));
-
   const filterFunc = (data) => {
-    console.log("in filterFunc");
-
     if (!originalCardsArr && !data) {
       console.log("filterFunc - (!originalCardsArr && !data)");
       return;
     }
 
     let filter = "";
-    // console.log("qparams.filter = " + qparams.filter);
     if (qparams.filter) {
       console.log("qparams.filter = " + qparams.filter);
       filter = qparams.filter;
@@ -58,17 +50,14 @@ const HomePage = () => {
       /*
         when component loaded and states not loaded
       */
-      console.log("when component loaded and states not loaded");
       setOriginalCardsArr(data);
       setCardsArr(data.filter((card) => card.title.startsWith(filter)));
-      console.log("cardsArr = " + cardsArr);
       return;
     }
     if (originalCardsArr) {
       /*
         when all loaded and states loaded
       */
-      console.log("when all loaded and states loaded");
       let newOriginalCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
       setCardsArr(
         newOriginalCardsArr.filter((card) => card.title.startsWith(filter))
@@ -90,7 +79,13 @@ const HomePage = () => {
     }
   };
   const handleEditFromInitialCardsArr = (id) => {
-    navigate(`/edit/${id}`); //localhost:3000/edit/123213
+    navigate(`${ROUTES.CARDEDIT}/${id}`); //localhost:3000/edit/123213
+    // `${ROUTES.HOME}?filter=${searchInput}`;
+  };
+
+  const handleOnClick = (id) => {
+    console.log("on handleOnClick");
+    navigate(`${ROUTES.CARDSPECIFICATION}/${id}`);
   };
 
   if (!cardsArr) {
@@ -103,6 +98,7 @@ const HomePage = () => {
         {cardsArr.map((item) => (
           <Grid item xs={4} key={item._id + Date.now()}>
             <CardComponent
+              clickOnCard={handleOnClick}
               id={item._id}
               title={item.title}
               subTitle={item.subTitle}

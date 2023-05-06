@@ -39,6 +39,7 @@ const CardComponent = ({
   onDelete,
   onEdit,
   canEdit,
+  clickOnCard,
 }) => {
   const handleDeleteBtnClick = () => {
     console.log("id", id);
@@ -47,12 +48,18 @@ const CardComponent = ({
   const handleEditBtnClick = () => {
     onEdit(id);
   };
+  const handleClickCard = () => {
+    clickOnCard(id);
+  };
+
   return (
-    <Card square raised>
+    <Card square raised onClick={handleClickCard}>
       <CardActionArea>
         <CardMedia component="img" image={img} />
       </CardActionArea>
-      <CardHeader title={title} subheader={subTitle}></CardHeader>
+      <CardActionArea>
+        <CardHeader title={title} subheader={subTitle}></CardHeader>
+      </CardActionArea>
       <CardContent>
         <Typography>{description}</Typography>
       </CardContent>
