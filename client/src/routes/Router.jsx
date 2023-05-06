@@ -9,7 +9,7 @@ import UserProfilePage from "../Pages/UserProfilePage";
 import FavCardsPage from "../Pages/FavCardsPage";
 import MyCardsPage from "../Pages/MyCardsPage";
 import SandBoxPage from "../Pages/SandBoxPage";
-import CreateCard from "../Pages/CreateCard";
+import CreateCard from "../components/Card/CreateCard";
 import PageNotFound from "../Pages/PageNotFound";
 import IsLoginPR from "../components/ProtectedRoute/IsLoginPR";
 import IsBizPR from "../components/ProtectedRoute/IsBizPR";

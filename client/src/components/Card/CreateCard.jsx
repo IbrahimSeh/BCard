@@ -10,8 +10,8 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import ROUTES from "../routes/ROUTES";
-import validateCardSchema from "../validation/CreateCardValidation";
+import ROUTES from "../../routes/ROUTES";
+import validateCardSchema from "../../validation/CreateCardValidation";
 import axios from "axios";
 
 const CreateCard = () => {
