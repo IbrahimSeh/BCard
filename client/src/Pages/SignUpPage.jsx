@@ -8,6 +8,7 @@ import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import RotateLeftRoundedIcon from "@mui/icons-material/RotateLeftRounded";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Alert from "@mui/material/Alert";
@@ -35,12 +36,29 @@ const SignUpPage = () => {
     zip: "",
   });
 
+  const [resetInputState, setresetInputState] = useState({
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    phone: "",
+    email: "",
+    password: "",
+    imgUrl: "",
+    imgAlt: "",
+    state: "",
+    country: "",
+    city: "",
+    street: "",
+    houseNumber: "",
+    zip: "",
+  });
+
   const [checked, setChecked] = useState(false);
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
 
   const navigate = useNavigate();
 
-  const handleBtnClick = async (ev) => {
+  const handleBtnSubmitClick = async (ev) => {
     try {
       const joiResponse = validateRegisterSchema(inputState);
       setInputsErrorsState(joiResponse);
@@ -71,8 +89,18 @@ const SignUpPage = () => {
       console.log("error from axios", err.response.data);
     }
   };
+
+  const handleBtnCancelClick = () => {
+    navigate(ROUTES.HOME);
+  };
+
+  const handleBtnResetClick = () => {
+    // window.location.reload();
+    setInputState(resetInputState);
+    setChecked(false);
+  };
+
   const handleInputChange = (ev) => {
-    console.log("on handleInputChange");
     let newInputState = JSON.parse(JSON.stringify(inputState));
     newInputState[ev.target.id] = ev.target.value;
     setInputState(newInputState);
@@ -454,15 +482,38 @@ const SignUpPage = () => {
                 label="Signup as bussiness"
               />
             </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Button
+                fullWidth
+                variant="outlined"
+                color="error"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={handleBtnCancelClick}
+              >
+                CANCEL
+              </Button>
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Button
+                fullWidth
+                variant="outlined"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={handleBtnResetClick}
+              >
+                <RotateLeftRoundedIcon />
+              </Button>
+            </Grid>
           </Grid>
 
           <Button
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2, bgcolor: "#945a61" }}
-            onClick={handleBtnClick}
+            sx={{ mt: 3, mb: 2, bgcolor: "#673ab7" }}
+            onClick={handleBtnSubmitClick}
           >
-            Sign Up
+            SUBMIT
           </Button>
 
           <Grid container justifyContent="flex-end">

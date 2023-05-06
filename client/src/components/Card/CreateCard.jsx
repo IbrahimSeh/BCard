@@ -9,13 +9,31 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import RotateLeftRoundedIcon from "@mui/icons-material/RotateLeftRounded";
 
 import ROUTES from "../../routes/ROUTES";
 import validateCardSchema from "../../validation/CreateCardValidation";
-import axios from "axios";
 
 const CreateCard = () => {
   const [inputState, setInputState] = useState({
+    title: "",
+    subTitle: "",
+    description: "",
+    state: "",
+    country: "",
+    city: "",
+    street: "",
+    houseNumber: "",
+    zipCode: "",
+    phone: "",
+    email: "",
+    web: "",
+    url: "",
+    alt: "",
+  });
+
+  const [resetInputState, setresetInputState] = useState({
     title: "",
     subTitle: "",
     description: "",
@@ -36,7 +54,7 @@ const CreateCard = () => {
 
   const navigate = useNavigate();
 
-  const handleBtnClick = async (ev) => {
+  const handleBtnSubmitClick = async (ev) => {
     try {
       const joiResponse = validateCardSchema(inputState);
       setInputsErrorsState(joiResponse);
@@ -68,8 +86,18 @@ const CreateCard = () => {
       console.log('error from create card post("/cards/)');
     }
   };
+
+  const handleBtnCancelClick = () => {
+    navigate(ROUTES.MYCARDS);
+  };
+
+  const handleBtnResetClick = () => {
+    // window.location.reload();
+    setInputState(resetInputState);
+  };
+
   const handleInputChange = (ev) => {
-    console.log("on handleInputChange");
+    // console.log("on handleInputChange");
     let newInputState = JSON.parse(JSON.stringify(inputState));
     newInputState[ev.target.id] = ev.target.value;
     setInputState(newInputState);
@@ -428,13 +456,36 @@ const CreateCard = () => {
                 </Alert>
               )}
             </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Button
+                fullWidth
+                variant="outlined"
+                color="error"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={handleBtnCancelClick}
+              >
+                CANCEL
+              </Button>
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Button
+                fullWidth
+                variant="outlined"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={handleBtnResetClick}
+              >
+                <RotateLeftRoundedIcon />
+              </Button>
+            </Grid>
           </Grid>
 
           <Button
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2, bgcolor: "#945a61" }}
-            onClick={handleBtnClick}
+            sx={{ mt: 3, mb: 2, bgcolor: "#673ab7" }}
+            onClick={handleBtnSubmitClick}
           >
             SUBMIT
           </Button>
