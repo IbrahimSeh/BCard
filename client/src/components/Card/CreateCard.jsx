@@ -59,11 +59,10 @@ const CreateCard = () => {
     try {
       const joiResponse = validateCardSchema(inputState);
       setInputsErrorsState(joiResponse);
+      // console.log("joiResponse = ", joiResponse);
       if (joiResponse) {
-        console.log("return in joi");
         return;
       }
-      console.log("after joi");
       await axios.post("/cards/", {
         title: inputState.title,
         subTitle: inputState.subTitle,

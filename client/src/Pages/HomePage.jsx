@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Grid } from "@mui/material";
+import { Box, CircularProgress, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -94,6 +94,9 @@ const HomePage = () => {
 
   return (
     <Box mt={3}>
+      <Typography mb={3} variant="h3" color="blue">
+        Collection of all cards
+      </Typography>
       <Grid container spacing={2}>
         {cardsArr.map((item) => (
           <Grid item xs={4} key={item._id + Date.now()}>

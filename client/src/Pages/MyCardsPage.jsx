@@ -100,8 +100,8 @@ const MyCardsPage = () => {
   }
 
   return (
-    <Box mt={3}>
-      <Typography variant="h3" color="blue">
+    <Box className="myCardBox" mt={3}>
+      <Typography mb={3} variant="h3" color="blue">
         Collection of my cards
       </Typography>
       <Grid container spacing={2}>
@@ -122,25 +122,23 @@ const MyCardsPage = () => {
         ))}
       </Grid>
 
-      <NavLink className="AddBtn" mt={3} to={ROUTES.CREATECARD}>
-        <AddCircleIcon
-          sx={{
-            color: "blue",
-            borderRadius: "50%",
-            "&:hover": { color: "#673ab7" },
-            fontSize: "80px",
-            //            position: fixed;
-            // bottom: 0px;
-            // right: 0px;
-          }}
-        />
-      </NavLink>
-
-      {/* <Grid container justify="flex-end" alignItems="flex-end">
-        <IconButton style={{ bottom: 3, right: 3 }}>
-          <AddCircleIcon />
-        </IconButton>
-      </Grid> */}
+      <Grid
+        container
+        direction="row"
+        justifyContent="flex-end"
+        alignItems="flex-end"
+      >
+        <NavLink mt={3} to={ROUTES.CREATECARD}>
+          <AddCircleIcon
+            sx={{
+              color: "blue",
+              borderRadius: "50%",
+              "&:hover": { color: "#673ab7" },
+              fontSize: "80px",
+            }}
+          />
+        </NavLink>
+      </Grid>
     </Box>
   );
 };
