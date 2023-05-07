@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import RotateLeftRoundedIcon from "@mui/icons-material/RotateLeftRounded";
+import { toast } from "react-toastify";
 
 import ROUTES from "../../routes/ROUTES";
 import validateCardSchema from "../../validation/CreateCardValidation";
@@ -79,11 +80,11 @@ const CreateCard = () => {
         url: inputState.url,
         alt: inputState.alt,
       });
-      console.log("after axios");
-      navigate(ROUTES.LOGIN);
+      toast.success("A new bussiness card has been created");
+      navigate(ROUTES.MYCARDS);
     } catch (err) {
-      //   console.log("error from axios", err.response.data);
-      console.log('error from create card post("/cards/)');
+      //console.log('error from create card post("/cards/)');
+      toast.error("the card has been not created");
     }
   };
 
@@ -444,7 +445,7 @@ const CreateCard = () => {
                 value={inputState.zipCode}
                 onChange={handleInputChange}
               />
-              {inputsErrorsState && inputsErrorsState.zipCode && (
+              {/* {inputsErrorsState && inputsErrorsState.zipCode && (
                 <Alert severity="warning">
                   {inputsErrorsState.zipCode.map((item) => (
                     <div key={"zipCode-errors" + item}>
@@ -454,7 +455,7 @@ const CreateCard = () => {
                     </div>
                   ))}
                 </Alert>
-              )}
+              )} */}
             </Grid>
 
             <Grid item xs={12} sm={6}>

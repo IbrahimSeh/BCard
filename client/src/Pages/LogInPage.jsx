@@ -129,7 +129,7 @@ const LogInPage = () => {
           <Button
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, "&:hover": { bgcolor: "#673ab7" } }}
             onClick={handleBtnClick}
           >
             Sign In

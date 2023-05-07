@@ -17,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "./css/App.css";
 import "./css/BCardFooter.css";
+import "./css/AddCardBtn.css";
 
 import useLoggedIn from "./hooks/useLoggedIn";
 import Router from "./routes/Router";
