@@ -66,9 +66,6 @@ const HomePage = () => {
   };
 
   const handleDeleteFromInitialCardsArr = async (id) => {
-    // let newCardsArr = JSON.parse(JSON.stringify(cardsArr));
-    // newCardsArr = newCardsArr.filter((item) => item.id != id);
-    // setCardsArr(newCardsArr);
     try {
       await axios.delete("/cards/" + id); // /cards/:id
       setCardsArr((newCardsArr) =>
@@ -78,11 +75,20 @@ const HomePage = () => {
       console.log("error when deleting", err.response.data);
     }
   };
-  const handleEditFromInitialCardsArr = (id) => {
-    navigate(`${ROUTES.CARDEDIT}/${id}`); //localhost:3000/edit/123213
-    // `${ROUTES.HOME}?filter=${searchInput}`;
-  };
 
+  const handleLikesFromInitialCardsArr = async (id) => {
+    try {
+      await axios.patch("/cards/card-like/" + id, {
+        country: "israel",
+        city: "arraba",
+        street: "batouf",
+        houseNumber: "4a",
+        email: "a@b.com",
+      }); // /cards/:id
+    } catch (err) {
+      console.log("error when liking card", err.response.data);
+    }
+  };
   const handleOnClick = (id) => {
     console.log("on handleOnClick");
     navigate(`${ROUTES.CARDSPECIFICATION}/${id}`);
@@ -108,8 +114,9 @@ const HomePage = () => {
               description={item.description}
               img={item.image ? item.image.url : ""}
               onDelete={handleDeleteFromInitialCardsArr}
-              onEdit={handleEditFromInitialCardsArr}
-              canEdit={payload && (payload.biz || payload.isAdmin)}
+              onLike={handleLikesFromInitialCardsArr}
+              // onEdit={handleEditFromInitialCardsArr}
+              candelete={payload && payload.isAdmin}
             />
           </Grid>
         ))}

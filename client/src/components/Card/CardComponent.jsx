@@ -7,29 +7,15 @@ import {
   Typography,
   CardActions,
   Button,
+  Grid,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { Fragment } from "react";
+import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
+import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import { useSelector } from "react-redux";
 
-/*
-    img
-    title
-    price
-    description
-    props = {
-        img:"http://az837918.vo.msecnd.net/publishedimages/articles/1733/en-CA/images/1/free-download-this-stunning-alberta-scene-for-your-device-background-image-L-6.jpg"
-        title:"nature"
-        price:"112"
-        description:"Here’s a gift to help bring a little more beauty to your life in September: An image of the world-famous Spirit Island at Maligne Lake in Alberta’s Jasper National Park, specially prepared to serve as a wallpaper or background image for your computer, tablet or mobile phone.
-        Use the links below to download the wallpaper in the appropriate size, and enjoy the scene all month long. We’ll create another beautiful Alberta image next month for you to enjoy.
-        If you want to see Spirit Island and Jasper National Park under the stars yourself (don’t forget to check out the park’s Dark Sky Festival from Oct. 14 to 23), scroll down for more information."
-        id:1
-        onDelete:handleDeleteFromInitialCardsArr
-        onEdit:handleEditFromInitialCardsArr
-    }
-*/
-
-// const CardComponent = (props) => { - - - }
 const CardComponent = ({
   img,
   title,
@@ -37,17 +23,26 @@ const CardComponent = ({
   description,
   id,
   onDelete,
-  onEdit,
-  canEdit,
+  onLike,
+  candelete,
   clickOnCard,
 }) => {
-  const handleDeleteBtnClick = () => {
+  const isLoggedIn = useSelector(
+    (bigPieBigState) => bigPieBigState.authSlice.isLoggedIn
+  );
+
+  const handleDeleteBtnClick = (event) => {
     console.log("id", id);
+    event.stopPropagation();
     onDelete(id);
   };
-  const handleEditBtnClick = () => {
-    onEdit(id);
+
+  const handleLikeBtnClick = (event) => {
+    console.log("id", id);
+    event.stopPropagation();
+    onLike(id);
   };
+
   const handleClickCard = () => {
     clickOnCard(id);
   };
@@ -64,21 +59,30 @@ const CardComponent = ({
         <Typography>{description}</Typography>
       </CardContent>
       <CardActions>
-        <Button variant="text" color="primary">
-          Buy now
-        </Button>
-        {canEdit ? (
-          <Fragment>
-            <Button variant="text" color="error" onClick={handleDeleteBtnClick}>
-              Delete
-            </Button>
-            <Button variant="text" color="warning" onClick={handleEditBtnClick}>
-              Edit
-            </Button>
-          </Fragment>
+        {candelete ? (
+          <Button sx={{ color: "#1b1b00" }} onClick={handleDeleteBtnClick}>
+            <DeleteRoundedIcon />
+          </Button>
         ) : (
           ""
         )}
+        <Grid
+          container
+          direction="row"
+          justifyContent="flex-end"
+          alignItems="flex-end"
+        >
+          <Button sx={{ color: "#2196f3" }}>
+            <LocalPhoneRoundedIcon />
+          </Button>
+          {isLoggedIn ? (
+            <Button sx={{ color: "#e91616" }} onClick={handleLikeBtnClick}>
+              <FavoriteRoundedIcon />
+            </Button>
+          ) : (
+            ""
+          )}
+        </Grid>
       </CardActions>
     </Card>
   );
@@ -91,8 +95,9 @@ CardComponent.propTypes = {
   subTitle: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   onDelete: PropTypes.func,
-  onEdit: PropTypes.func,
-  canEdit: PropTypes.bool,
+  // onEdit: PropTypes.func,
+  candelete: PropTypes.bool,
+  clickOnCard: PropTypes.func,
 };
 
 CardComponent.defaultProps = {
