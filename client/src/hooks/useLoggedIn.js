@@ -15,7 +15,8 @@ const useLoggedIn = () => {
             }
             const { data } = await axios.get("/users/userInfo");
             const payload = jwt_decode(token);
-
+            // console.log('payload = ', JSON.stringify(payload));
+            // console.log('token = ', jwt_decode(localStorage.getItem("token"))._id);
             // update redux about user isLogin flag
             dispatch(authActions.login(payload));
 

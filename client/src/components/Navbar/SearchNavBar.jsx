@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
@@ -50,14 +51,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const SearchNavBar = () => {
   const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+
   const handleSearchChange = (e) => {
     // console.log(e.target.value);
     setSearchInput(e.target.value);
   };
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    navigate(`${ROUTES.HOME}?filter=${searchInput}`);
+    // console.log(location.pathname);
+    navigate(`${location.pathname}?filter=${searchInput}`);
   };
+
   return (
     <form onSubmit={handleSearchSubmit}>
       <Search>

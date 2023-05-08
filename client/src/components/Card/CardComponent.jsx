@@ -10,10 +10,10 @@ import {
   Grid,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { Fragment } from "react";
 import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import { useSelector } from "react-redux";
 
 const CardComponent = ({
@@ -22,9 +22,12 @@ const CardComponent = ({
   subTitle,
   description,
   id,
+  userId,
   onDelete,
-  onLike,
   candelete,
+  onEdit,
+  canEdit,
+  onLike,
   clickOnCard,
 }) => {
   const isLoggedIn = useSelector(
@@ -35,6 +38,12 @@ const CardComponent = ({
     console.log("id", id);
     event.stopPropagation();
     onDelete(id);
+  };
+
+  const handleEditBtnClick = (event) => {
+    console.log("id", id);
+    event.stopPropagation();
+    onEdit(id);
   };
 
   const handleLikeBtnClick = (event) => {
@@ -57,11 +66,19 @@ const CardComponent = ({
       </CardActionArea>
       <CardContent>
         <Typography>{description}</Typography>
+        <Typography>{"user id => " + userId}</Typography>
       </CardContent>
       <CardActions>
         {candelete ? (
           <Button sx={{ color: "#1b1b00" }} onClick={handleDeleteBtnClick}>
             <DeleteRoundedIcon />
+          </Button>
+        ) : (
+          ""
+        )}
+        {canEdit ? (
+          <Button sx={{ color: "#008e24" }} onClick={handleEditBtnClick}>
+            <EditRoundedIcon />
           </Button>
         ) : (
           ""
@@ -95,8 +112,9 @@ CardComponent.propTypes = {
   subTitle: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   onDelete: PropTypes.func,
-  // onEdit: PropTypes.func,
   candelete: PropTypes.bool,
+  onEdit: PropTypes.func,
+  canEdit: PropTypes.bool,
   clickOnCard: PropTypes.func,
 };
 

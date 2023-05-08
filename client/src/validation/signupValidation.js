@@ -17,9 +17,11 @@ const registerSchema = Joi.object({
         .min(2)
         .max(10)
         .required(),
-    imgUrl: Joi.string().pattern(new RegExp("(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)")).allow(null, ''),
+    imgUrl: Joi.string().allow(null, ''),
+    // pattern(new RegExp("(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)")).
     imgAlt: Joi.string().allow(null, ''),
-    state: Joi.string().pattern(new RegExp("[A-Z][a-z]+(?: +[A-Z][a-z]+)*")).allow(null, ''),
+    state: Joi.string().allow(null, ''),
+    // .pattern(new RegExp("[A-Z][a-z]+(?: +[A-Z][a-z]+)*")).
     country: Joi.string().min(2).max(100).required(),
     city: Joi.string().pattern(new RegExp("^[a-zA-Z]+(?: [\\s-][a-zA-Z]+)*$")).min(2).max(100).required(),
     street: Joi.string().min(2).max(100).required(),

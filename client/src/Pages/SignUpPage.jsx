@@ -17,6 +17,7 @@ import axios from "axios";
 
 import validateRegisterSchema from "../validation/signupValidation";
 import ROUTES from "../routes/ROUTES";
+import { toast } from "react-toastify";
 
 const SignUpPage = () => {
   const [inputState, setInputState] = useState({
@@ -83,10 +84,11 @@ const SignUpPage = () => {
         zipCode: inputState.zip,
         biz: checked,
       });
-
+      toast.success("A new user has been created");
       navigate(ROUTES.LOGIN);
     } catch (err) {
       console.log("error from axios", err.response.data);
+      toast.error("the user has been not created");
     }
   };
 

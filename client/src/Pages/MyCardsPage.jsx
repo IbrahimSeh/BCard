@@ -73,9 +73,6 @@ const MyCardsPage = () => {
   };
 
   const handleDeleteFromInitialCardsArr = async (id) => {
-    // let newCardsArr = JSON.parse(JSON.stringify(cardsArr));
-    // newCardsArr = newCardsArr.filter((item) => item.id != id);
-    // setCardsArr(newCardsArr);
     try {
       await axios.delete("/cards/" + id); // /cards/:id
       setCardsArr((newCardsArr) =>
@@ -85,9 +82,17 @@ const MyCardsPage = () => {
       console.log("error when deleting", err.response.data);
     }
   };
+
+  const handleLikesFromInitialCardsArr = async (id) => {
+    try {
+      await axios.patch("/cards/card-like/" + id); // /cards/:id
+    } catch (err) {
+      console.log("error when liking card", err.response.data);
+    }
+  };
+
   const handleEditFromInitialCardsArr = (id) => {
-    navigate(`${ROUTES.CARDEDIT}/${id}`); //localhost:3000/edit/123213
-    // `${ROUTES.HOME}?filter=${searchInput}`;
+    navigate(`${ROUTES.CARDEDIT}/${id}`);
   };
 
   const handleOnClick = (id) => {
@@ -115,8 +120,11 @@ const MyCardsPage = () => {
               description={item.description}
               img={item.image ? item.image.url : ""}
               onDelete={handleDeleteFromInitialCardsArr}
+              candelete={payload && payload.biz}
+              // payload.isAdmin
               onEdit={handleEditFromInitialCardsArr}
-              canEdit={payload && (payload.biz || payload.isAdmin)}
+              canEdit={payload && payload.biz}
+              onLike={handleLikesFromInitialCardsArr}
             />
           </Grid>
         ))}

@@ -2,11 +2,12 @@ import { Box, CircularProgress, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 import CardComponent from "../components/Card/CardComponent";
-import { toast } from "react-toastify";
 import useQueryParams from "../hooks/useQueryParams";
-import { useSelector } from "react-redux";
 import ROUTES from "../routes/ROUTES";
 
 const HomePage = () => {
@@ -15,6 +16,11 @@ const HomePage = () => {
   const navigate = useNavigate();
   let qparams = useQueryParams();
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
+  let userID = "";
+
+  if (localStorage.getItem("token")) {
+    userID = jwt_decode(localStorage.getItem("token"))._id;
+  }
 
   //first useEffect when page load
   useEffect(() => {
@@ -76,15 +82,13 @@ const HomePage = () => {
     }
   };
 
+  const handleEditFromInitialCardsArr = (id) => {
+    navigate(`${ROUTES.CARDEDIT}/${id}`);
+  };
+
   const handleLikesFromInitialCardsArr = async (id) => {
     try {
-      await axios.patch("/cards/card-like/" + id, {
-        country: "israel",
-        city: "arraba",
-        street: "batouf",
-        houseNumber: "4a",
-        email: "a@b.com",
-      }); // /cards/:id
+      await axios.patch("/cards/card-like/" + id); // /cards/:id
     } catch (err) {
       console.log("error when liking card", err.response.data);
     }
@@ -109,14 +113,23 @@ const HomePage = () => {
             <CardComponent
               clickOnCard={handleOnClick}
               id={item._id}
+              userId={item.user_id}
               title={item.title}
               subTitle={item.subTitle}
               description={item.description}
               img={item.image ? item.image.url : ""}
               onDelete={handleDeleteFromInitialCardsArr}
+              candelete={
+                (payload && payload.isAdmin) ||
+                (item.user_id === userID && payload && payload.biz)
+              }
+              // payload.isAdmin
+              onEdit={handleEditFromInitialCardsArr}
+              // item.user_id  == the user id that create the card
+              //jwt_decode(localStorage.getItem("token"))._id == the id of the conected user
+              //to promise to user to edit card he have to be the owner of the card and registered as biz user
+              canEdit={item.user_id === userID && payload && payload.biz}
               onLike={handleLikesFromInitialCardsArr}
-              // onEdit={handleEditFromInitialCardsArr}
-              candelete={payload && payload.isAdmin}
             />
           </Grid>
         ))}
@@ -124,30 +137,5 @@ const HomePage = () => {
     </Box>
   );
 };
-
-/*
-  <CardComponent
-              id={item.id}
-              title={item.title}
-              price={item.price}
-              ----
-              onDelete={handleDeleteFromInitialCardsArr}
-              onEdit={handleEditFromInitialCardsArr}
-            />
-  component 1:
-    <CardComponent
-              id={1}
-              ----
-              onDelete={handleDeleteFromInitialCardsArr}
-              onEdit={handleEditFromInitialCardsArr}
-            />
-  component 2:
-    <CardComponent
-              id={2}
-              ----
-              onDelete={handleDeleteFromInitialCardsArr}
-              onEdit={handleEditFromInitialCardsArr}
-            />
-*/
 
 export default HomePage;

@@ -1,20 +1,14 @@
-import {
-  Box,
-  CircularProgress,
-  Grid,
-  IconButton,
-  Typography,
-} from "@mui/material";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { NavLink, useNavigate } from "react-router-dom";
-
-import ROUTES from "../routes/ROUTES";
+import { Box, CircularProgress, Grid, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import useQueryParams from "../hooks/useQueryParams";
 import { toast } from "react-toastify";
+
+import ROUTES from "../routes/ROUTES";
 import CardComponent from "../components/Card/CardComponent";
+import useQueryParams from "../hooks/useQueryParams";
 
 const FavCardsPage = () => {
   const [originalCardsArr, setOriginalCardsArr] = useState(null);
@@ -22,6 +16,11 @@ const FavCardsPage = () => {
   const navigate = useNavigate();
   let qparams = useQueryParams();
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
+  let userID = "";
+
+  if (localStorage.getItem("token")) {
+    userID = jwt_decode(localStorage.getItem("token"))._id;
+  }
 
   //first useEffect when page load
   useEffect(() => {
@@ -73,9 +72,6 @@ const FavCardsPage = () => {
   };
 
   const handleDeleteFromInitialCardsArr = async (id) => {
-    // let newCardsArr = JSON.parse(JSON.stringify(cardsArr));
-    // newCardsArr = newCardsArr.filter((item) => item.id != id);
-    // setCardsArr(newCardsArr);
     try {
       await axios.delete("/cards/" + id); // /cards/:id
       setCardsArr((newCardsArr) =>
@@ -85,9 +81,16 @@ const FavCardsPage = () => {
       console.log("error when deleting", err.response.data);
     }
   };
+
+  const handleLikesFromInitialCardsArr = async (id) => {
+    try {
+      await axios.patch("/cards/card-like/" + id); // /cards/:id
+    } catch (err) {
+      console.log("error when liking card", err.response.data);
+    }
+  };
   const handleEditFromInitialCardsArr = (id) => {
-    navigate(`${ROUTES.CARDEDIT}/${id}`); //localhost:3000/edit/123213
-    // `${ROUTES.HOME}?filter=${searchInput}`;
+    navigate(`${ROUTES.CARDEDIT}/${id}`);
   };
 
   const handleOnClick = (id) => {
@@ -110,13 +113,20 @@ const FavCardsPage = () => {
             <CardComponent
               clickOnCard={handleOnClick}
               id={item._id}
+              userId={item.user_id}
               title={item.title}
               subTitle={item.subTitle}
               description={item.description}
               img={item.image ? item.image.url : ""}
               onDelete={handleDeleteFromInitialCardsArr}
+              candelete={
+                (payload && payload.isAdmin) ||
+                (item.user_id === userID && payload && payload.biz)
+              }
+              // payload.isAdmin
               onEdit={handleEditFromInitialCardsArr}
-              canEdit={payload && payload.isAdmin}
+              canEdit={item.user_id === userID && payload && payload.biz}
+              onLike={handleLikesFromInitialCardsArr}
             />
           </Grid>
         ))}
