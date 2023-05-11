@@ -8,6 +8,8 @@ import {
   CardActions,
   Button,
   Grid,
+  Divider,
+  Box,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
@@ -20,15 +22,16 @@ const CardComponent = ({
   img,
   title,
   subTitle,
-  description,
+  phone,
+  address,
   id,
+  clickOnCard,
   userId,
   onDelete,
   candelete,
   onEdit,
   canEdit,
   onLike,
-  clickOnCard,
 }) => {
   const isLoggedIn = useSelector(
     (bigPieBigState) => bigPieBigState.authSlice.isLoggedIn
@@ -64,9 +67,26 @@ const CardComponent = ({
       <CardActionArea>
         <CardHeader title={title} subheader={subTitle}></CardHeader>
       </CardActionArea>
+      <Divider variant="middle" />
       <CardContent>
-        <Typography>{description}</Typography>
-        <Typography>{"user id => " + userId}</Typography>
+        <Typography component="div">
+          <Box fontWeight="fontWeightMedium" display="inline">
+            Phone :
+          </Box>{" "}
+          {phone}
+        </Typography>
+        <Typography component="div">
+          <Box fontWeight="fontWeightMedium" display="inline">
+            Address :
+          </Box>{" "}
+          {address}
+        </Typography>
+        <Typography component="div">
+          <Box fontWeight="fontWeightMedium" display="inline">
+            Card Number :
+          </Box>{" "}
+          {id}
+        </Typography>
       </CardContent>
       <CardActions>
         {candelete ? (
@@ -106,16 +126,18 @@ const CardComponent = ({
 };
 
 CardComponent.propTypes = {
-  id: PropTypes.string,
   img: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   subTitle: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  phone: PropTypes.string.isRequired,
+  address: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   onDelete: PropTypes.func,
   candelete: PropTypes.bool,
   onEdit: PropTypes.func,
   canEdit: PropTypes.bool,
   clickOnCard: PropTypes.func,
+  onLike: PropTypes.func,
 };
 
 CardComponent.defaultProps = {

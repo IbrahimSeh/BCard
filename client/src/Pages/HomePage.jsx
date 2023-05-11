@@ -107,17 +107,29 @@ const HomePage = () => {
       <Typography mb={3} variant="h3" color="blue">
         Collection of all cards
       </Typography>
+      <Typography mb={3} variant="h5" color="blue">
+        Here you can find bussiness cards from all categories
+      </Typography>
       <Grid container spacing={2}>
         {cardsArr.map((item) => (
           <Grid item xs={4} key={item._id + Date.now()}>
             <CardComponent
-              clickOnCard={handleOnClick}
-              id={item._id}
-              userId={item.user_id}
+              img={item.image ? item.image.url : ""}
               title={item.title}
               subTitle={item.subTitle}
-              description={item.description}
-              img={item.image ? item.image.url : ""}
+              phone={item.phone}
+              address={
+                item.country +
+                ", " +
+                item.city +
+                ", " +
+                item.street +
+                ", " +
+                item.houseNumber
+              }
+              id={item._id}
+              clickOnCard={handleOnClick}
+              userId={item.user_id}
               onDelete={handleDeleteFromInitialCardsArr}
               candelete={
                 (payload && payload.isAdmin) ||

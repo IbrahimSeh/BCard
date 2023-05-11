@@ -113,12 +113,22 @@ const MyCardsPage = () => {
         {cardsArr.map((item) => (
           <Grid item xs={4} key={item._id + Date.now()}>
             <CardComponent
-              clickOnCard={handleOnClick}
-              id={item._id}
+              img={item.image ? item.image.url : ""}
               title={item.title}
               subTitle={item.subTitle}
-              description={item.description}
-              img={item.image ? item.image.url : ""}
+              phone={item.phone}
+              address={
+                item.country +
+                ", " +
+                item.city +
+                ", " +
+                item.street +
+                ", " +
+                item.houseNumber
+              }
+              id={item._id}
+              clickOnCard={handleOnClick}
+              userId={item.user_id}
               onDelete={handleDeleteFromInitialCardsArr}
               candelete={payload && payload.biz}
               // payload.isAdmin
