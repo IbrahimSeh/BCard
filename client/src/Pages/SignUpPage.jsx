@@ -1,14 +1,9 @@
 import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
-import RotateLeftRoundedIcon from "@mui/icons-material/RotateLeftRounded";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Alert from "@mui/material/Alert";
@@ -21,9 +16,10 @@ import { toast } from "react-toastify";
 import GridItemComponent from "../components/Form/GridItemComponent";
 import CRComponent from "../components/Form/CRComponent";
 import SubmitComponent from "../components/Form/SubmitComponent";
+import CheckboxComponent from "../components/Form/CheckboxComponent";
 
 const SignUpPage = () => {
-  const [inputState, setInputState] = useState({
+  let inputstateFromGridItem = {
     firstName: "",
     middleName: "",
     lastName: "",
@@ -38,26 +34,9 @@ const SignUpPage = () => {
     street: "",
     houseNumber: "",
     zip: "",
-  });
+  };
 
-  // const inputSatateKeys = Object.keys(inputState);
-
-  const [resetInputState, setresetInputState] = useState({
-    firstName: "",
-    middleName: "",
-    lastName: "",
-    phone: "",
-    email: "",
-    password: "",
-    imgUrl: "",
-    imgAlt: "",
-    state: "",
-    country: "",
-    city: "",
-    street: "",
-    houseNumber: "",
-    zip: "",
-  });
+  let checkBoxState = false;
 
   const [checked, setChecked] = useState(false);
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
@@ -65,30 +44,32 @@ const SignUpPage = () => {
   const navigate = useNavigate();
 
   const handleBtnSubmitClick = async (ev) => {
-    console.log("inputState = ", inputState);
+    setChecked(checkBoxState);
 
     try {
-      const joiResponse = validateRegisterSchema(inputState);
+      const joiResponse = validateRegisterSchema(inputstateFromGridItem);
       setInputsErrorsState(joiResponse);
+      console.log("InputsErrorsState = ", inputsErrorsState);
       if (joiResponse) {
+        console.log("return from joiResponse");
         return;
       }
 
       await axios.post("/users/register", {
-        firstName: inputState.firstName,
-        middleName: inputState.middleName,
-        lastName: inputState.lastName,
-        phone: inputState.phone,
-        email: inputState.email,
-        password: inputState.password,
-        imageUrl: inputState.imageUrl,
-        imageAlt: inputState.imageAlt,
-        state: inputState.state,
-        country: inputState.country,
-        city: inputState.city,
-        street: inputState.street,
-        houseNumber: inputState.houseNumber,
-        zipCode: inputState.zip,
+        firstName: inputstateFromGridItem.firstName,
+        middleName: inputstateFromGridItem.middleName,
+        lastName: inputstateFromGridItem.lastName,
+        phone: inputstateFromGridItem.phone,
+        email: inputstateFromGridItem.email,
+        password: inputstateFromGridItem.password,
+        imageUrl: inputstateFromGridItem.imageUrl,
+        imageAlt: inputstateFromGridItem.imageAlt,
+        state: inputstateFromGridItem.state,
+        country: inputstateFromGridItem.country,
+        city: inputstateFromGridItem.city,
+        street: inputstateFromGridItem.street,
+        houseNumber: inputstateFromGridItem.houseNumber,
+        zipCode: inputstateFromGridItem.zip,
         biz: checked,
       });
       toast.success("A new user has been created");
@@ -104,19 +85,14 @@ const SignUpPage = () => {
   };
 
   const handleBtnResetClick = () => {
-    // window.location.reload();
-    setInputState(resetInputState);
-    setChecked(false);
+    window.location.reload();
   };
 
-  const handleInputChange = (ev) => {
-    let newInputState = JSON.parse(JSON.stringify(inputState));
-    newInputState[ev.target.id] = ev.target.value;
-    setInputState(newInputState);
+  const updateState = (key, value) => {
+    inputstateFromGridItem[key] = value;
   };
-
-  const handleCheckBoxChange = (event) => {
-    setChecked(event.target.checked);
+  const updatecheckBoxState = (value) => {
+    checkBoxState = value;
   };
 
   return (
@@ -138,16 +114,15 @@ const SignUpPage = () => {
 
         <Box component="div" noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            {Object.entries(inputState).map(([key, value]) => (
+            {Object.entries(inputstateFromGridItem).map(([key, value]) => (
               <Grid item xs={12} sm={6} key={Math.random() + Date.now()}>
                 <GridItemComponent
                   inputKey={key}
-                  inputValue={value}
-                  handelinput={handleInputChange}
+                  passDataFromChildToParent={updateState}
                 />
-                {inputsErrorsState && inputsErrorsState.key && (
+                {inputsErrorsState && inputsErrorsState[key] && (
                   <Alert severity="warning">
-                    {inputsErrorsState.key.map((item) => (
+                    {inputsErrorsState[key].map((item) => (
                       <div key={`${key}-errors` + item}>
                         {item.includes("pattern:")
                           ? item.split("pattern:")[0] + "pattern"
@@ -159,38 +134,15 @@ const SignUpPage = () => {
               </Grid>
             ))}
 
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="isBussiness"
-                    id="isBussiness"
-                    checked={checked}
-                    onChange={handleCheckBoxChange}
-                    inputProps={{ "aria-label": "controlled" }}
-                    color="primary"
-                  />
-                }
-                label="Signup as bussiness"
-              />
-            </Grid>
+            <CheckboxComponent
+              passCheckBoxFromChildToParent={updatecheckBoxState}
+            />
             <CRComponent
               cancelBtn={handleBtnCancelClick}
               resetBtn={handleBtnResetClick}
             />
           </Grid>
-
           <SubmitComponent goBtn={handleBtnSubmitClick} />
-
-          {/* <Button
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2, bgcolor: "#673ab7" }}
-            submitBtn={handleBtnSubmitClick}
-          >
-            SUBMIT
-          </Button> */}
-
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link

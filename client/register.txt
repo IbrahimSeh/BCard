@@ -357,3 +357,26 @@
                 <RotateLeftRoundedIcon />
               </Button>
             </Grid> */}
+            {/* <Button
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2, bgcolor: "#673ab7" }}
+            submitBtn={handleBtnSubmitClick}
+          >
+            SUBMIT
+          </Button> */}
+{/* <Grid item xs={12}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="isBussiness"
+                    id="isBussiness"
+                    checked={checked}
+                    onChange={handleCheckBoxChange}
+                    inputProps={{ "aria-label": "controlled" }}
+                    color="primary"
+                  />
+                }
+                label="Signup as bussiness"
+              />
+            </Grid> */}

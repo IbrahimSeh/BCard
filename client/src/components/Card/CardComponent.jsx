@@ -33,6 +33,7 @@ const CardComponent = ({
   canEdit,
   onLike,
 }) => {
+  console.log("CardComponent");
   const isLoggedIn = useSelector(
     (bigPieBigState) => bigPieBigState.authSlice.isLoggedIn
   );
