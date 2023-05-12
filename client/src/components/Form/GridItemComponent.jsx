@@ -1,4 +1,4 @@
-import { Alert, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import PropTypes from "prop-types";
 import { Fragment, useState } from "react";
 
@@ -19,8 +19,6 @@ const GridItemComponent = ({ inputKey, passDataFromChildToParent }) => {
     houseNumber: "",
     zip: "",
   });
-
-  const [inputsErrorsState, setInputsErrorsState] = useState(null);
 
   const handleInputChange = (ev) => {
     let newInputState = JSON.parse(JSON.stringify(inputState));
@@ -52,6 +50,12 @@ const GridItemComponent = ({ inputKey, passDataFromChildToParent }) => {
         return false;
       case "zip":
         return false;
+      case "web":
+        return false;
+      case "url":
+        return false;
+      case "alt":
+        return false;
       default:
         return true;
     }
@@ -76,8 +80,7 @@ const GridItemComponent = ({ inputKey, passDataFromChildToParent }) => {
 
 GridItemComponent.propTypes = {
   inputKey: PropTypes.string.isRequired,
-  inputValue: PropTypes.string,
-  handelinput: PropTypes.func,
+  passDataFromChildToParent: PropTypes.func,
 };
 
 export default GridItemComponent;
