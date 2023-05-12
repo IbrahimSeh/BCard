@@ -20,6 +20,7 @@ import ROUTES from "../routes/ROUTES";
 import { toast } from "react-toastify";
 import GridItemComponent from "../components/Form/GridItemComponent";
 import CRComponent from "../components/Form/CRComponent";
+import SubmitComponent from "../components/Form/SubmitComponent";
 
 const SignUpPage = () => {
   const [inputState, setInputState] = useState({
@@ -179,14 +180,16 @@ const SignUpPage = () => {
             />
           </Grid>
 
-          <Button
+          <SubmitComponent goBtn={handleBtnSubmitClick} />
+
+          {/* <Button
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2, bgcolor: "#673ab7" }}
-            onClick={handleBtnSubmitClick}
+            submitBtn={handleBtnSubmitClick}
           >
             SUBMIT
-          </Button>
+          </Button> */}
 
           <Grid container justifyContent="flex-end">
             <Grid item>
