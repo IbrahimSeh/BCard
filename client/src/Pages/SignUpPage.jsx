@@ -19,7 +19,7 @@ import SubmitComponent from "../components/Form/SubmitComponent";
 import CheckboxComponent from "../components/Form/CheckboxComponent";
 
 const SignUpPage = () => {
-  let inputstateFromGridItem = {
+  const [inputstate, setinputstate] = useState({
     firstName: "",
     middleName: "",
     lastName: "",
@@ -34,8 +34,7 @@ const SignUpPage = () => {
     street: "",
     houseNumber: "",
     zip: "",
-  };
-
+  });
   let checkBoxState = false;
 
   const [checked, setChecked] = useState(false);
@@ -47,29 +46,29 @@ const SignUpPage = () => {
     setChecked(checkBoxState);
 
     try {
-      const joiResponse = validateRegisterSchema(inputstateFromGridItem);
-      setInputsErrorsState(joiResponse);
+      const joiResponse = validateRegisterSchema(inputstate);
       console.log("InputsErrorsState = ", inputsErrorsState);
+      setInputsErrorsState(joiResponse);
       if (joiResponse) {
         console.log("return from joiResponse");
         return;
       }
 
       await axios.post("/users/register", {
-        firstName: inputstateFromGridItem.firstName,
-        middleName: inputstateFromGridItem.middleName,
-        lastName: inputstateFromGridItem.lastName,
-        phone: inputstateFromGridItem.phone,
-        email: inputstateFromGridItem.email,
-        password: inputstateFromGridItem.password,
-        imageUrl: inputstateFromGridItem.imageUrl,
-        imageAlt: inputstateFromGridItem.imageAlt,
-        state: inputstateFromGridItem.state,
-        country: inputstateFromGridItem.country,
-        city: inputstateFromGridItem.city,
-        street: inputstateFromGridItem.street,
-        houseNumber: inputstateFromGridItem.houseNumber,
-        zipCode: inputstateFromGridItem.zip,
+        firstName: inputstate.firstName,
+        middleName: inputstate.middleName,
+        lastName: inputstate.lastName,
+        phone: inputstate.phone,
+        email: inputstate.email,
+        password: inputstate.password,
+        imageUrl: inputstate.imageUrl,
+        imageAlt: inputstate.imageAlt,
+        state: inputstate.state,
+        country: inputstate.country,
+        city: inputstate.city,
+        street: inputstate.street,
+        houseNumber: inputstate.houseNumber,
+        zipCode: inputstate.zip,
         biz: checked,
       });
       toast.success("A new user has been created");
@@ -89,7 +88,7 @@ const SignUpPage = () => {
   };
 
   const updateState = (key, value) => {
-    inputstateFromGridItem[key] = value;
+    inputstate[key] = value;
   };
   const updatecheckBoxState = (value) => {
     checkBoxState = value;
@@ -114,11 +113,12 @@ const SignUpPage = () => {
 
         <Box component="div" noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            {Object.entries(inputstateFromGridItem).map(([key, value]) => (
+            {Object.entries(inputstate).map(([key, value]) => (
               <Grid item xs={12} sm={6} key={Math.random() + Date.now()}>
                 <GridItemComponent
                   inputKey={key}
-                  passDataFromChildToParent={updateState}
+                  inputValue={value}
+                  onChange={updateState}
                 />
                 {inputsErrorsState && inputsErrorsState[key] && (
                   <Alert severity="warning">

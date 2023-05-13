@@ -11,7 +11,7 @@ import CRComponent from "../Form/CRComponent";
 import GridItemComponent from "../Form/GridItemComponent";
 
 const CreateCard = () => {
-  let inputstateFromGridItem = {
+  const [inputState, setInputState] = useState({
     title: "",
     subTitle: "",
     description: "",
@@ -26,41 +26,41 @@ const CreateCard = () => {
     web: "",
     url: "",
     alt: "",
-  };
+  });
 
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
-
   const navigate = useNavigate();
 
   const handleBtnSubmitClick = async (ev) => {
     try {
-      const joiResponse = validateCardSchema(inputstateFromGridItem);
+      const joiResponse = validateCardSchema(inputState);
       setInputsErrorsState(joiResponse);
-      console.log("InputsErrorsState = ", inputsErrorsState);
+
       if (joiResponse) {
         console.log("return from joiResponse");
         return;
       }
-
       await axios.post("/cards/", {
-        title: inputstateFromGridItem.title,
-        subTitle: inputstateFromGridItem.subTitle,
-        description: inputstateFromGridItem.description,
-        state: inputstateFromGridItem.state,
-        country: inputstateFromGridItem.country,
-        city: inputstateFromGridItem.city,
-        street: inputstateFromGridItem.street,
-        houseNumber: inputstateFromGridItem.houseNumber,
-        email: inputstateFromGridItem.email,
-        zipCode: inputstateFromGridItem.zipCode,
-        phone: inputstateFromGridItem.phone,
-        web: inputstateFromGridItem.web,
-        url: inputstateFromGridItem.url,
-        alt: inputstateFromGridItem.alt,
+        title: inputState.title,
+        subTitle: inputState.subTitle,
+        description: inputState.description,
+        state: inputState.state,
+        country: inputState.country,
+        city: inputState.city,
+        street: inputState.street,
+        houseNumber: inputState.houseNumber,
+        email: inputState.email,
+        zipCode: inputState.zipCode,
+        phone: inputState.phone,
+        web: inputState.web,
+        url: inputState.url,
+        alt: inputState.alt,
       });
-      toast.success("A new bussiness card has been created");
+
+      toast.success("A new card has been created");
       navigate(ROUTES.MYCARDS);
     } catch (err) {
+      console.log("error from axios", err.response.data);
       toast.error("the card has been not created");
     }
   };
@@ -74,7 +74,8 @@ const CreateCard = () => {
   };
 
   const updateState = (key, value) => {
-    inputstateFromGridItem[key] = value;
+    inputState[key] = value;
+    console.log("inputState = ", inputState);
   };
 
   return (
@@ -93,11 +94,12 @@ const CreateCard = () => {
 
         <Box component="div" noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            {Object.entries(inputstateFromGridItem).map(([key, value]) => (
+            {Object.entries(inputState).map(([key, value]) => (
               <Grid item xs={12} sm={6} key={Math.random() + Date.now()}>
                 <GridItemComponent
                   inputKey={key}
-                  passDataFromChildToParent={updateState}
+                  inputValue={value}
+                  onChange={updateState}
                 />
                 {inputsErrorsState && inputsErrorsState[key] && (
                   <Alert severity="warning">
@@ -118,7 +120,7 @@ const CreateCard = () => {
             />
           </Grid>
 
-          <SubmitComponent goBtn={handleBtnSubmitClick} />
+          <SubmitComponent onClick={handleBtnSubmitClick} />
         </Box>
       </Box>
     </Container>

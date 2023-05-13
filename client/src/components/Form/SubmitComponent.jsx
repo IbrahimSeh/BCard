@@ -1,9 +1,9 @@
 import { Button } from "@mui/material";
 import { Fragment } from "react";
 
-const SubmitComponent = ({ goBtn }) => {
+const SubmitComponent = ({ onClick }) => {
   const handleBtnSubmitClick = (ev) => {
-    goBtn(ev);
+    onClick(ev);
   };
   return (
     <Fragment>

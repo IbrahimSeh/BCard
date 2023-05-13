@@ -5,10 +5,11 @@ import darkThemeReducer from "./darkTheme";
 import authReducer from "./Auth";
 import BussinessReducer from "./BussinessUser"
 import AdminReducer from "./AdminUser"
+import CopyReducer from "./CopyState"
 
 const store = configureStore({
     reducer: {
-        // counterSlice: counterReducer,
+        CopySlice: CopyReducer,
         AdminSlice: AdminReducer,
         BussinessSlice: BussinessReducer,
         darkThemeSlice: darkThemeReducer,

@@ -1,3 +1,20 @@
+// await axios.post("/cards/", {
+        //   title: inputstateFromGridItem.title,
+        //   subTitle: inputstateFromGridItem.subTitle,
+        //   description: inputstateFromGridItem.description,
+        //   state: inputstateFromGridItem.state,
+        //   country: inputstateFromGridItem.country,
+        //   city: inputstateFromGridItem.city,
+        //   street: inputstateFromGridItem.street,
+        //   houseNumber: inputstateFromGridItem.houseNumber,
+        //   email: inputstateFromGridItem.email,
+        //   zipCode: inputstateFromGridItem.zipCode,
+        //   phone: inputstateFromGridItem.phone,
+        //   web: inputstateFromGridItem.web,
+        //   url: inputstateFromGridItem.url,
+        //   alt: inputstateFromGridItem.alt,
+        // });
+
 const [inputState, setInputState] = useState({
     title: "",
     subTitle: "",

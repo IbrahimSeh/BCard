@@ -1,8 +1,9 @@
 import { TextField } from "@mui/material";
 import PropTypes from "prop-types";
-import { Fragment, useState } from "react";
+import { Fragment, memo, useState } from "react";
 
-const GridItemComponent = ({ inputKey, passDataFromChildToParent }) => {
+const GridItemComponent = ({ inputKey, inputValue, onChange }) => {
+  console.log("GridItemComponent");
   const [inputState, setInputState] = useState({
     firstName: "",
     middleName: "",
@@ -18,13 +19,20 @@ const GridItemComponent = ({ inputKey, passDataFromChildToParent }) => {
     street: "",
     houseNumber: "",
     zip: "",
+    title: "",
+    subTitle: "",
+    description: "",
+    zipCode: "",
+    web: "",
+    url: "",
+    alt: "",
   });
 
   const handleInputChange = (ev) => {
     let newInputState = JSON.parse(JSON.stringify(inputState));
     newInputState[ev.target.id] = ev.target.value;
     setInputState(newInputState);
-    passDataFromChildToParent(ev.target.id, ev.target.value);
+    onChange(ev.target.id, ev.target.value);
   };
 
   const getType = (inputKey) => {
@@ -71,7 +79,11 @@ const GridItemComponent = ({ inputKey, passDataFromChildToParent }) => {
         id={inputKey}
         label={inputKey}
         autoFocus
-        value={inputState[inputKey]}
+        value={
+          inputState[inputKey] == ""
+            ? inputValue + inputState[inputKey]
+            : inputState[inputKey]
+        }
         onChange={handleInputChange}
       />
     </Fragment>
@@ -83,4 +95,5 @@ GridItemComponent.propTypes = {
   passDataFromChildToParent: PropTypes.func,
 };
 
-export default GridItemComponent;
+//export default GridItemComponent;
+export default memo(GridItemComponent, (a, b) => true);
