@@ -92,7 +92,8 @@ const MyCardsPage = () => {
   };
 
   const handleEditFromInitialCardsArr = (id) => {
-    navigate(`${ROUTES.CARDEDIT}/${id}`);
+    // navigate(`${ROUTES.CARDEDIT}/${id}`);
+    navigate(`${ROUTES.CARDEDIT}/?cardId=${id}`);
   };
 
   const handleOnClick = (id) => {

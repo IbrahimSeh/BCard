@@ -15,7 +15,8 @@ const createCardSchema = Joi.object({
     url: Joi.string().min(6).max(2048).allow(null, ''),
     // pattern image url = .pattern(new RegExp("(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)"))
     alt: Joi.string().min(2).max(256).allow(null, ''),
-    state: Joi.string().pattern(new RegExp("[A-Z][a-z]+(?: +[A-Z][a-z]+)*")).min(2).max(256).allow(null, ''),
+    state: Joi.string().min(2).max(256).allow(null, ''),
+    // .pattern(new RegExp("[A-Z][a-z]+(?: +[A-Z][a-z]+)*")).min(2).max(256).
     country: Joi.string().min(2).max(256).required(),
     city: Joi.string().pattern(new RegExp("^[a-zA-Z]+(?: [\\s-][a-zA-Z]+)*$")).min(2).max(256).required(),
     street: Joi.string().min(2).max(256).required(),

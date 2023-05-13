@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Fragment, memo, useState } from "react";
 
 const GridItemComponent = ({ inputKey, inputValue, onChange }) => {
+  console.log("inputValue = ", inputValue);
   const [inputState, setInputState] = useState({
     firstName: "",
     middleName: "",
@@ -94,5 +95,5 @@ GridItemComponent.propTypes = {
   passDataFromChildToParent: PropTypes.func,
 };
 
-//export default GridItemComponent;
-export default memo(GridItemComponent, (a, b) => true);
+export default GridItemComponent;
+//export default memo(GridItemComponent, (a, b) => true);

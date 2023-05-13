@@ -75,7 +75,6 @@ const CreateCard = () => {
 
   const updateState = (key, value) => {
     inputState[key] = value;
-    console.log("inputState = ", inputState);
   };
 
   return (

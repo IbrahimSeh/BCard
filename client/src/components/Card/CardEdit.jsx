@@ -1,6 +1,6 @@
 import { Alert, Box, Container, Grid, Typography } from "@mui/material";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -12,8 +12,9 @@ import GridItemComponent from "../Form/GridItemComponent";
 import useQueryParams from "../../hooks/useQueryParams";
 
 const CardEdit = () => {
+  console.log("CardEditt");
   let qparams = useQueryParams();
-  console.log("qparams.filter = " + qparams.filter);
+  const [value, setValue] = useState(0); // integer state
 
   const [inputState, setInputState] = useState({
     title: "",
@@ -35,6 +36,53 @@ const CardEdit = () => {
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const navigate = useNavigate();
 
+  // /cards/card/:id
+  useEffect(() => {
+    console.log("useeffect");
+    axios
+      .get("/cards/card/" + qparams.cardId)
+      .then(({ data }) => {
+        for (const key in JSON.parse(JSON.stringify(data))) {
+          inputState[key] = data[key];
+        }
+        inputState.url = inputState.image.url;
+        inputState.alt = inputState.image.alt;
+        delete inputState._id;
+        delete inputState.image;
+        delete inputState.createdAt;
+        delete inputState.likes;
+        delete inputState.bizNumber;
+        delete inputState.__v;
+        delete inputState.user_id;
+      })
+      .catch((err) => {
+        console.log("err from axioas", err);
+        toast.error("Oops");
+      });
+  }, [inputState, qparams.cardId]);
+
+  // (async () => {
+  //   console.log("hbfrj");
+  //   try {
+  //     const { data } = await axios.get("/cards/card/" + qparams.cardId);
+  //     for (const key in JSON.parse(JSON.stringify(data))) {
+  //       inputState[key] = data[key];
+  //     }
+  //     inputState.url = inputState.image.url;
+  //     inputState.alt = inputState.image.alt;
+  //     delete inputState._id;
+  //     delete inputState.image;
+  //     delete inputState.createdAt;
+  //     delete inputState.likes;
+  //     delete inputState.bizNumber;
+  //     delete inputState.__v;
+  //     delete inputState.user_id;
+  //   } catch (err) {
+  //     console.log("err from axios", err);
+  //     toast.error("Oops");
+  //   }
+  // })();
+
   const handleBtnSubmitClick = async (ev) => {
     try {
       const joiResponse = validateCardSchema(inputState);
@@ -44,7 +92,7 @@ const CardEdit = () => {
         console.log("return from joiResponse");
         return;
       }
-      await axios.put("/cards/:id", {
+      await axios.put("/cards/" + qparams.cardId, {
         title: inputState.title,
         subTitle: inputState.subTitle,
         description: inputState.description,
@@ -61,11 +109,11 @@ const CardEdit = () => {
         alt: inputState.alt,
       });
 
-      toast.success("A new card has been created");
+      toast.success("the card has been edited");
       navigate(ROUTES.MYCARDS);
     } catch (err) {
       console.log("error from axios", err.response.data);
-      toast.error("the card has been not created");
+      toast.error("the card has been not edited");
     }
   };
 
@@ -76,6 +124,15 @@ const CardEdit = () => {
   const handleBtnResetClick = () => {
     window.location.reload();
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log("Initial timeout!");
+      inputState.zipCode += "";
+      setValue(1);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const updateState = (key, value) => {
     inputState[key] = value;
@@ -102,7 +159,7 @@ const CardEdit = () => {
               <Grid item xs={12} sm={6} key={Math.random() + Date.now()}>
                 <GridItemComponent
                   inputKey={key}
-                  inputValue={value}
+                  inputValue={inputState[key]}
                   onChange={updateState}
                 />
                 {inputsErrorsState && inputsErrorsState[key] && (
