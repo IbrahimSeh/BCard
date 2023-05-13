@@ -1,5 +1,5 @@
 import { Box, CircularProgress, Grid, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -83,12 +83,15 @@ const FavCardsPage = () => {
   };
 
   const handleLikesFromInitialCardsArr = async (id) => {
+    console.log("in like func");
     try {
       await axios.patch("/cards/card-like/" + id); // /cards/:id
+      window.location.reload();
     } catch (err) {
       console.log("error when liking card", err.response.data);
     }
   };
+
   const handleEditFromInitialCardsArr = (id) => {
     navigate(`${ROUTES.CARDEDIT}/${id}`);
   };
@@ -100,6 +103,14 @@ const FavCardsPage = () => {
 
   if (!cardsArr) {
     return <CircularProgress />;
+  }
+
+  if (cardsArr.length === 0) {
+    return (
+      <Typography m={3} variant="h3" color="blue">
+        sorry ! ,you'r Collection of favorite cards is empty.
+      </Typography>
+    );
   }
 
   return (
@@ -136,6 +147,7 @@ const FavCardsPage = () => {
               onEdit={handleEditFromInitialCardsArr}
               canEdit={item.user_id === userID && payload && payload.biz}
               onLike={handleLikesFromInitialCardsArr}
+              disLike={false}
             />
           </Grid>
         ))}

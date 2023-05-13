@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Fragment, memo, useState } from "react";
 
 const GridItemComponent = ({ inputKey, inputValue, onChange }) => {
-  console.log("GridItemComponent");
   const [inputState, setInputState] = useState({
     firstName: "",
     middleName: "",

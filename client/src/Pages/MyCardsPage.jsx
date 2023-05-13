@@ -104,6 +104,14 @@ const MyCardsPage = () => {
     return <CircularProgress />;
   }
 
+  if (cardsArr.length === 0) {
+    return (
+      <Typography m={3} variant="h3" color="blue">
+        sorry ! ,you'r Collection of bussiness cards is empty.
+      </Typography>
+    );
+  }
+
   return (
     <Box className="myCardBox" mt={3}>
       <Typography mb={3} variant="h3" color="blue">
