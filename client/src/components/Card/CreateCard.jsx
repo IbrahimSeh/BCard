@@ -30,16 +30,17 @@ const CreateCard = () => {
 
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const navigate = useNavigate();
+  const [btnDisable, setbtnDisable] = useState(true);
+  let joiResponse;
 
   const handleBtnSubmitClick = async (ev) => {
     try {
-      const joiResponse = validateCardSchema(inputState);
       setInputsErrorsState(joiResponse);
-
       if (joiResponse) {
         console.log("return from joiResponse");
         return;
       }
+
       await axios.post("/cards/", {
         title: inputState.title,
         subTitle: inputState.subTitle,
@@ -75,6 +76,10 @@ const CreateCard = () => {
 
   const updateState = (key, value) => {
     inputState[key] = value;
+    joiResponse = validateCardSchema(inputState);
+    if (!joiResponse) {
+      setbtnDisable(false);
+    }
   };
 
   return (
@@ -119,7 +124,10 @@ const CreateCard = () => {
             />
           </Grid>
 
-          <SubmitComponent onClick={handleBtnSubmitClick} />
+          <SubmitComponent
+            onClick={handleBtnSubmitClick}
+            disablebtn={btnDisable}
+          />
         </Box>
       </Box>
     </Container>

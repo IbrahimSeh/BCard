@@ -19,6 +19,7 @@ import SubmitComponent from "../components/Form/SubmitComponent";
 import CheckboxComponent from "../components/Form/CheckboxComponent";
 
 const SignUpPage = () => {
+  console.log("SignUpPage");
   const [inputstate, setinputstate] = useState({
     firstName: "",
     middleName: "",
@@ -39,15 +40,13 @@ const SignUpPage = () => {
 
   const [checked, setChecked] = useState(false);
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
-
+  const [btnDisable, setbtnDisable] = useState(true);
   const navigate = useNavigate();
+  let joiResponse;
 
   const handleBtnSubmitClick = async (ev) => {
     setChecked(checkBoxState);
-
     try {
-      const joiResponse = validateRegisterSchema(inputstate);
-      console.log("InputsErrorsState = ", inputsErrorsState);
       setInputsErrorsState(joiResponse);
       if (joiResponse) {
         console.log("return from joiResponse");
@@ -89,6 +88,10 @@ const SignUpPage = () => {
 
   const updateState = (key, value) => {
     inputstate[key] = value;
+    joiResponse = validateRegisterSchema(inputstate);
+    if (!joiResponse) {
+      setbtnDisable(false);
+    }
   };
   const updatecheckBoxState = (value) => {
     checkBoxState = value;
@@ -142,7 +145,10 @@ const SignUpPage = () => {
               resetBtn={handleBtnResetClick}
             />
           </Grid>
-          <SubmitComponent goBtn={handleBtnSubmitClick} />
+          <SubmitComponent
+            onClick={handleBtnSubmitClick}
+            disablebtn={btnDisable}
+          />
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link

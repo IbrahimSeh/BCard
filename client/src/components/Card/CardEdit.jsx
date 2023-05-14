@@ -12,7 +12,6 @@ import GridItemComponent from "../Form/GridItemComponent";
 import useQueryParams from "../../hooks/useQueryParams";
 
 const CardEdit = () => {
-  console.log("CardEditt");
   let qparams = useQueryParams();
   const [value, setValue] = useState(0); // integer state
 
@@ -34,11 +33,12 @@ const CardEdit = () => {
   });
 
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
+  const [btnDisable, setbtnDisable] = useState(false);
+  let joiResponse;
   const navigate = useNavigate();
 
   // /cards/card/:id
   useEffect(() => {
-    console.log("useeffect");
     axios
       .get("/cards/card/" + qparams.cardId)
       .then(({ data }) => {
@@ -61,33 +61,9 @@ const CardEdit = () => {
       });
   }, [inputState, qparams.cardId]);
 
-  // (async () => {
-  //   console.log("hbfrj");
-  //   try {
-  //     const { data } = await axios.get("/cards/card/" + qparams.cardId);
-  //     for (const key in JSON.parse(JSON.stringify(data))) {
-  //       inputState[key] = data[key];
-  //     }
-  //     inputState.url = inputState.image.url;
-  //     inputState.alt = inputState.image.alt;
-  //     delete inputState._id;
-  //     delete inputState.image;
-  //     delete inputState.createdAt;
-  //     delete inputState.likes;
-  //     delete inputState.bizNumber;
-  //     delete inputState.__v;
-  //     delete inputState.user_id;
-  //   } catch (err) {
-  //     console.log("err from axios", err);
-  //     toast.error("Oops");
-  //   }
-  // })();
-
   const handleBtnSubmitClick = async (ev) => {
     try {
-      const joiResponse = validateCardSchema(inputState);
       setInputsErrorsState(joiResponse);
-
       if (joiResponse) {
         console.log("return from joiResponse");
         return;
@@ -127,7 +103,6 @@ const CardEdit = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      console.log("Initial timeout!");
       inputState.zipCode += "";
       setValue(1);
     }, 500);
@@ -135,8 +110,15 @@ const CardEdit = () => {
   }, []);
 
   const updateState = (key, value) => {
+    console.log("updat");
     inputState[key] = value;
-    console.log("inputState = ", inputState);
+    joiResponse = validateCardSchema(inputState);
+    if (joiResponse) {
+      console.log("joiResponse = ", joiResponse);
+      setbtnDisable(true);
+    } else {
+      setbtnDisable(false);
+    }
   };
 
   return (
@@ -159,7 +141,7 @@ const CardEdit = () => {
               <Grid item xs={12} sm={6} key={Math.random() + Date.now()}>
                 <GridItemComponent
                   inputKey={key}
-                  inputValue={inputState[key]}
+                  inputValue={inputState[key] + ""}
                   onChange={updateState}
                 />
                 {inputsErrorsState && inputsErrorsState[key] && (
@@ -181,7 +163,10 @@ const CardEdit = () => {
             />
           </Grid>
 
-          <SubmitComponent onClick={handleBtnSubmitClick} />
+          <SubmitComponent
+            onClick={handleBtnSubmitClick}
+            disablebtn={btnDisable}
+          />
         </Box>
       </Box>
     </Container>

@@ -1,9 +1,8 @@
 import { TextField } from "@mui/material";
 import PropTypes from "prop-types";
-import { Fragment, memo, useState } from "react";
+import { Fragment, useState } from "react";
 
 const GridItemComponent = ({ inputKey, inputValue, onChange }) => {
-  console.log("inputValue = ", inputValue);
   const [inputState, setInputState] = useState({
     firstName: "",
     middleName: "",

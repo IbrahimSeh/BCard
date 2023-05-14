@@ -18,10 +18,10 @@ const createCardSchema = Joi.object({
     state: Joi.string().min(2).max(256).allow(null, ''),
     // .pattern(new RegExp("[A-Z][a-z]+(?: +[A-Z][a-z]+)*")).min(2).max(256).
     country: Joi.string().min(2).max(256).required(),
-    city: Joi.string().pattern(new RegExp("^[a-zA-Z]+(?: [\\s-][a-zA-Z]+)*$")).min(2).max(256).required(),
+    city: Joi.string().min(2).max(256).required(),
     street: Joi.string().min(2).max(256).required(),
     houseNumber: Joi.string().pattern(new RegExp("^[1-9]\\d*(?:[ -]?(?:[a-zA-Z]+|[1-9]\\d*))?$")).min(1).max(256).required(),
-    zipCode: Joi.string().pattern(new RegExp("^\\d{5}(?:[-\\s]\\d{4})?$")).min(1).max(99999999),
+    zipCode: Joi.string().min(1).max(99999999).allow(null, ''),
     web: Joi.string().min(5).max(255).allow(null, ''),
 
 });

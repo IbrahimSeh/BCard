@@ -40,19 +40,16 @@ const CardComponent = ({
   );
 
   const handleDeleteBtnClick = (event) => {
-    console.log("id", id);
     event.stopPropagation();
     onDelete(id);
   };
 
   const handleEditBtnClick = (event) => {
-    console.log("id", id);
     event.stopPropagation();
     onEdit(id);
   };
 
   const handleLikeBtnClick = (event) => {
-    console.log("id", id);
     event.stopPropagation();
     onLike(id);
   };
