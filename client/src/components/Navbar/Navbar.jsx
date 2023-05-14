@@ -19,13 +19,12 @@ import SearchNavBar from "./SearchNavBar";
 import ROUTES from "../../routes/ROUTES";
 import NavLinkComponent from "./NavLinkComponent";
 import { authActions } from "../../redux/Auth";
-import { BizActions } from "../../redux/BussinessUser";
-import { AdminActions } from "../../redux/AdminUser";
 
 import logo from "../../assets/images/BCardLogo2.png";
-import userAvatar from "../../assets/images/userAvatar.jpg";
 import logoutAvatar from "../../assets/images/logout.png";
-// import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 // access to all
 const pages = [
@@ -58,7 +57,7 @@ const authedPages = [
     url: ROUTES.LOGOUT,
   },
   {
-    label: <Avatar alt="user Avatar" src={userAvatar} />,
+    label: "",
     url: ROUTES.PROFILE,
   },
 ];
@@ -90,14 +89,24 @@ const Navbar = () => {
   const isLoggedIn = useSelector(
     (bigPieBigState) => bigPieBigState.authSlice.isLoggedIn
   );
+  const [imgUser, setimgUser] = React.useState("");
+  useEffect(() => {
+    if (isLoggedIn) {
+      axios
+        .get("/users/userInfo")
+        .then(({ data }) => {
+          setimgUser(data.imageUrl);
+        })
+        .catch((err) => {
+          console.log("err from axioas", err);
+          toast.error("Oops");
+        });
+    }
+  }, [isLoggedIn]);
 
-  const isBussiness = useSelector(
-    (bigPieBigState) => bigPieBigState.BussinessSlice.isBussiness
-  );
+  authedPages[1].label = <Avatar alt="user Avatar" src={imgUser} />;
 
-  const isAdmin = useSelector(
-    (bigPieBigState) => bigPieBigState.AdminSlice.isAdmin
-  );
+  const payload = useSelector((bigState) => bigState.authSlice.payload);
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const dispatch = useDispatch();
@@ -113,8 +122,6 @@ const Navbar = () => {
   const logoutClick = () => {
     localStorage.removeItem("token");
     dispatch(authActions.logout());
-    dispatch(BizActions.setToNotBussiness());
-    dispatch(AdminActions.setToNotAdmin());
   };
 
   const navbarstyle = {
@@ -139,12 +146,12 @@ const Navbar = () => {
                   <NavLinkComponent key={page.url} {...page} />
                 ))
               : ""}
-            {isBussiness
+            {payload && payload.biz
               ? userAsBiz.map((page) => (
                   <NavLinkComponent key={page.url} {...page} />
                 ))
               : ""}
-            {isAdmin
+            {payload && payload.isAdmin
               ? userAsAdmin.map((page) => (
                   <NavLinkComponent key={page.url} {...page} />
                 ))

@@ -43,9 +43,7 @@ const BottomNavBar = () => {
   const isLoggedIn = useSelector(
     (bigPieBigState) => bigPieBigState.authSlice.isLoggedIn
   );
-  const isBussiness = useSelector(
-    (bigPieBigState) => bigPieBigState.BussinessSlice.isBussiness
-  );
+  const payload = useSelector((bigState) => bigState.authSlice.payload);
 
   return (
     <AppBar style={navbarstyle} position="static">
@@ -62,7 +60,7 @@ const BottomNavBar = () => {
                   <FooterNavLink key={page.url} {...page} />
                 ))
               : ""}
-            {isBussiness
+            {payload && payload.biz
               ? bizUserConnected.map((page) => (
                   <FooterNavLink key={page.url} {...page} />
                 ))
