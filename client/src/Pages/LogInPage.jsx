@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import ROUTES from "../routes/ROUTES";
 import validateLoginSchema from "../validation/loginValidation";
 import useLoggedIn from "../hooks/useLoggedIn";
+import CRComponent from "../components/Form/CRComponent";
 
 const LogInPage = () => {
   const [inputState, setInputState] = useState({
@@ -27,6 +28,14 @@ const LogInPage = () => {
   const loggedIn = useLoggedIn();
   const navigate = useNavigate();
 
+  const handleBtnCancelClick = () => {
+    navigate(ROUTES.HOME);
+  };
+
+  const handleBtnResetClick = () => {
+    setInputState({ email: "", password: "" });
+  };
+
   const handleBtnClick = async (ev) => {
     try {
       const joiResponse = validateLoginSchema(inputState);
@@ -38,15 +47,6 @@ const LogInPage = () => {
       const { data } = await axios.post("/users/login", inputState);
       localStorage.setItem("token", data.token);
       loggedIn();
-
-      // console.log("data.token => " + data.token);
-      // const payload = JSON.stringify(jwt_decode(data.token));
-      //convert payload to string
-      // let stringPayload = "";
-      // for (let index = 0; index < payload.length; index++) {
-      //   stringPayload += payload[index];
-      // }
-      //  stringPayload.split('"')[3];
 
       //move to homepage
       navigate(ROUTES.HOME);
@@ -125,6 +125,10 @@ const LogInPage = () => {
                 </Alert>
               )}
             </Grid>
+            <CRComponent
+              cancelBtn={handleBtnCancelClick}
+              resetBtn={handleBtnResetClick}
+            />
           </Grid>
           <Button
             fullWidth
