@@ -1,30 +1,19 @@
 import * as React from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  AppBar,
-  Box,
-  Toolbar,
-  Menu,
-  IconButton,
-  Typography,
-  Container,
-  MenuItem,
-  Avatar,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { AppBar, Box, Toolbar, Container, Avatar } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
 
-import SwithMode from "./SwithMode";
-import SearchNavBar from "./SearchNavBar";
 import ROUTES from "../../routes/ROUTES";
 import NavLinkComponent from "./NavLinkComponent";
 import { authActions } from "../../redux/Auth";
-
-import logo from "../../assets/images/BCardLogo2.png";
 import logoutAvatar from "../../assets/images/logout.png";
-import { useEffect } from "react";
-import { toast } from "react-toastify";
-import axios from "axios";
+import HumborgerNavbar from "./HumborgerNavbar";
+import SwithMode from "./SwithMode";
+import SearchNavBar from "./SearchNavBar";
+import logo from "../../assets/images/BCardLogo2.png";
 
 // access to all
 const pages = [
@@ -117,19 +106,8 @@ const Navbar = () => {
   }, [isLoggedIn]);
 
   authedPages[1].label = <Avatar alt="user Avatar" src={imgUser} />;
-
   const payload = useSelector((bigState) => bigState.authSlice.payload);
-
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const dispatch = useDispatch();
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
 
   const logoutClick = () => {
     localStorage.removeItem("token");
@@ -188,9 +166,7 @@ const Navbar = () => {
                 ))
               : ""}
           </Box>
-
           <SearchNavBar />
-
           <Box sx={{ my: 2, p: 1 }}>
             <SwithMode />
           </Box>
@@ -214,62 +190,7 @@ const Navbar = () => {
                 ))}
           </Box>
 
-          {/* hamburger with menu */}
-          <Box
-            sx={{
-              flexGrow: 1,
-              flex: 1,
-              display: { xs: "flex", md: "none" },
-              justifyContent: "flex-end",
-            }}
-          >
-            <IconButton
-              size="large"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {humgorgerItem.map((page) => (
-                <MenuItem
-                  key={"miniLinks" + page.url}
-                  onClick={handleCloseNavMenu}
-                >
-                  <NavLink to={page.url}>
-                    {/* if the current page and the link is the same then it will change the color of the link */}
-                    {({ isActive }) => (
-                      <Typography
-                        sx={{
-                          textAlign: "center",
-                          color: `${isActive ? "red" : ""}`,
-                        }}
-                      >
-                        {page.label}
-                      </Typography>
-                    )}
-                  </NavLink>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          <HumborgerNavbar humgorgerItem={humgorgerItem} />
         </Toolbar>
       </Container>
     </AppBar>
