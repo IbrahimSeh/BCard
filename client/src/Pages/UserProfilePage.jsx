@@ -20,7 +20,6 @@ import CheckboxComponent from "../components/Form/CheckboxComponent";
 import jwt_decode from "jwt-decode";
 
 const UserProfilePage = () => {
-  console.log("UserProfilePage");
   const userId = jwt_decode(localStorage.getItem("token"))._id;
 
   const [inputstate, setinputstate] = useState({

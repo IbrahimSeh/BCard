@@ -89,7 +89,7 @@ const HomePage = () => {
   };
 
   const handleEditFromInitialCardsArr = (id) => {
-    navigate(`${ROUTES.CARDEDIT}/${id}`);
+    navigate(`${ROUTES.CARDEDIT}/?cardId=${id}`);
   };
 
   const handleLikesFromInitialCardsArr = async (id) => {
@@ -100,8 +100,7 @@ const HomePage = () => {
     }
   };
   const handleOnClick = (id) => {
-    console.log("on handleOnClick");
-    navigate(`${ROUTES.CARDSPECIFICATION}/${id}`);
+    navigate(`${ROUTES.CARDSPECIFICATION}/?cardId=${id}`);
   };
 
   if (!cardsArr) {
@@ -141,11 +140,7 @@ const HomePage = () => {
                 (payload && payload.isAdmin) ||
                 (item.user_id === userID && payload && payload.biz)
               }
-              // payload.isAdmin
               onEdit={handleEditFromInitialCardsArr}
-              // item.user_id  == the user id that create the card
-              //jwt_decode(localStorage.getItem("token"))._id == the id of the conected user
-              //to promise to user to edit card he have to be the owner of the card and registered as biz user
               canEdit={item.user_id === userID && payload && payload.biz}
               onLike={handleLikesFromInitialCardsArr}
             />

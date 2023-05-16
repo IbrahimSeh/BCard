@@ -47,10 +47,7 @@ const Router = () => {
           />
         }
       />
-      <Route
-        path={`${ROUTES.CARDSPECIFICATION}/:id`}
-        element={<CardSpecification />}
-      />
+      <Route path={ROUTES.CARDSPECIFICATION} element={<CardSpecification />} />
       <Route path={ROUTES.CARDEDIT} element={<CardEdit />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>

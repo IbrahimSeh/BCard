@@ -99,12 +99,11 @@ const FavCardsPage = () => {
   };
 
   const handleEditFromInitialCardsArr = (id) => {
-    navigate(`${ROUTES.CARDEDIT}/${id}`);
+    navigate(`${ROUTES.CARDEDIT}/?cardId=${id}`);
   };
 
   const handleOnClick = (id) => {
-    console.log("on handleOnClick");
-    navigate(`${ROUTES.CARDSPECIFICATION}/${id}`);
+    navigate(`${ROUTES.CARDSPECIFICATION}/?cardId=${id}`);
   };
 
   if (!cardsArr) {
