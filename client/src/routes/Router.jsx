@@ -16,6 +16,7 @@ import IsBizPR from "../components/ProtectedRoute/IsBizPR";
 import IsAdminPR from "../components/ProtectedRoute/IsAdminPR";
 import CardSpecification from "../components/Card/CardSpecification";
 import CardEdit from "../components/Card/CardEdit";
+import IsNotLoginPR from "../components/ProtectedRoute/isNotLoginPR";
 
 const Router = () => {
   return (
@@ -23,10 +24,17 @@ const Router = () => {
       <Route path={ROUTES.HOME} element={<HomePage />} />
       <Route path={ROUTES.FAKEHOME} element={<Navigate to={ROUTES.HOME} />} />
       <Route path={ROUTES.ABOUT} element={<AboutPage />} />
-      <Route path={ROUTES.LOGIN} element={<LogInPage />} />
-      <Route path={ROUTES.SIGNUP} element={<SignUpPage />} />
+      <Route
+        path={ROUTES.LOGIN}
+        element={<IsNotLoginPR element={<LogInPage />} />}
+      />
+      <Route
+        path={ROUTES.SIGNUP}
+        element={<IsNotLoginPR element={<SignUpPage />} />}
+      />
       <Route path={ROUTES.PROFILE} element={<UserProfilePage />} />
       <Route path={ROUTES.LOGOUT} element={<HomePage />} />
+      {/* IsNotLoginPR */}
       <Route
         path={ROUTES.FAVCARDS}
         element={<IsLoginPR element={<FavCardsPage />} />}
@@ -35,7 +43,6 @@ const Router = () => {
         path={ROUTES.MYCARDS}
         element={<IsLoginPR element={<IsBizPR element={<MyCardsPage />} />} />}
       ></Route>
-
       <Route path={ROUTES.CREATECARD} element={<CreateCard />} />
       <Route
         path={ROUTES.SANDBOX}

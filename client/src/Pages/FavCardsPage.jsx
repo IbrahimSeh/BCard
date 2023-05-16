@@ -1,5 +1,5 @@
 import { Box, CircularProgress, Grid, Typography } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { useEffect, useState } from "react";
