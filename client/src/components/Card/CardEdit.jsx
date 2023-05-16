@@ -138,7 +138,12 @@ const CardEdit = () => {
         <Box component="div" noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             {Object.entries(inputState).map(([key, value]) => (
-              <Grid item xs={12} sm={6} key={Math.random() + Date.now()}>
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                key={Math.floor(Math.random() * 100) + Date.now()}
+              >
                 <GridItemComponent
                   inputKey={key}
                   inputValue={inputState[key] + ""}
