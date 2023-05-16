@@ -19,6 +19,7 @@ const CardSpecification = () => {
           inputState[key] = data[key];
         }
         setuserlikeId(inputState.likes);
+        console.log("inputState = ", inputState);
       })
       .catch((err) => {
         console.log("err from axioas", err);
@@ -57,6 +58,8 @@ const CardSpecification = () => {
         cardNumber={inputState._id ? inputState._id : ""}
         userCreated={inputState.user_id ? inputState.user_id : ""}
         favoritUsers={userlikeId}
+        bizNumber={inputState.bizNumber ? inputState.bizNumber : ""}
+        CardCreationDate={inputState.createdAt ? inputState.createdAt : ""}
       />
     </Box>
   );

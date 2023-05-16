@@ -31,6 +31,8 @@ const ExtendedCardComponent = ({
   cardNumber,
   userCreated,
   favoritUsers,
+  bizNumber,
+  CardCreationDate,
 }) => {
   return (
     <Card square raised>
@@ -60,13 +62,13 @@ const ExtendedCardComponent = ({
           </Box>{" "}
           {" Country: " +
             country +
-            " State: " +
+            " ,State: " +
             state +
-            " City: " +
+            " ,City: " +
             city +
-            " Street: " +
+            " ,Street: " +
             street +
-            " HN: " +
+            " ,HN: " +
             houseNumber}
         </Typography>
         <Typography component="div">
@@ -108,7 +110,18 @@ const ExtendedCardComponent = ({
             ))}
           </List>
         </Typography>
-
+        <Typography component="div">
+          <Box fontWeight="fontWeightMedium" display="inline">
+            Bussiness Number :
+          </Box>{" "}
+          {bizNumber}
+        </Typography>
+        <Typography component="div">
+          <Box fontWeight="fontWeightMedium" display="inline">
+            Card Creation Date :
+          </Box>{" "}
+          {CardCreationDate}
+        </Typography>
         <Typography component="div">
           <Box fontWeight="fontWeightMedium" display="inline">
             Card Description :
@@ -134,6 +147,8 @@ ExtendedCardComponent.propTypes = {
   email: PropTypes.string.isRequired,
   cardNumber: PropTypes.string.isRequired,
   userCreated: PropTypes.string.isRequired,
+  bizNumber: PropTypes.string.isRequired,
+  CardCreationDate: PropTypes.string.isRequired,
 };
 
 ExtendedCardComponent.defaultProps = {
