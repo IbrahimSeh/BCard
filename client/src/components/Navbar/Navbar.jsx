@@ -62,6 +62,18 @@ const authedPages = [
   },
 ];
 
+//logged in user for humborger item
+const authedPagesHumborger = [
+  {
+    label: "Logout",
+    url: ROUTES.LOGOUT,
+  },
+  {
+    label: "Profile",
+    url: ROUTES.PROFILE,
+  },
+];
+
 //logged in any users
 const anyUserConnected = [
   {
@@ -127,6 +139,25 @@ const Navbar = () => {
   const navbarstyle = {
     backgroundColor: "#0f0d35",
   };
+
+  let humgorgerItem = [];
+  humgorgerItem = humgorgerItem.concat(pages);
+
+  if (isLoggedIn) {
+    humgorgerItem = humgorgerItem.concat(
+      anyUserConnected,
+      authedPagesHumborger
+    );
+  } else {
+    humgorgerItem = humgorgerItem.concat(notAuthPages);
+  }
+
+  if (payload && payload.biz) {
+    humgorgerItem = humgorgerItem.concat(userAsBiz);
+  }
+  if (payload && payload.isAdmin) {
+    humgorgerItem = humgorgerItem.concat(userAsAdmin);
+  }
 
   return (
     <AppBar style={navbarstyle} className="the-NavBar" position="static">
@@ -217,7 +248,7 @@ const Navbar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.concat(notAuthPages).map((page) => (
+              {humgorgerItem.map((page) => (
                 <MenuItem
                   key={"miniLinks" + page.url}
                   onClick={handleCloseNavMenu}
