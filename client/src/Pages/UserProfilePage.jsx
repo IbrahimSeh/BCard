@@ -38,6 +38,7 @@ const UserProfilePage = () => {
   });
   const [value, setValue] = useState(0);
   const [checked, setChecked] = useState(false);
+  const [flagIfCheckBoxUpdated, setFlagIfCheckBoxUpdated] = useState(false);
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const [btnDisable, setbtnDisable] = useState(false);
   const navigate = useNavigate();
@@ -93,7 +94,7 @@ const UserProfilePage = () => {
         biz: checked,
       });
       toast.success("the user information has been updated");
-      if (checked === false) {
+      if (flagIfCheckBoxUpdated === true) {
         toast.success("Please login agin to update the application buttons");
         localStorage.removeItem("token");
         dispatch(authActions.logout());
@@ -142,6 +143,7 @@ const UserProfilePage = () => {
     }
   };
   const updatecheckBoxState = (value) => {
+    setFlagIfCheckBoxUpdated(!flagIfCheckBoxUpdated);
     setChecked(value);
   };
 
