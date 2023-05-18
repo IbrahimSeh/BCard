@@ -16,50 +16,10 @@ import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import { useSelector } from "react-redux";
 
-const CardComponent = ({
-  img,
-  title,
-  subTitle,
-  phone,
-  address,
-  id,
-  clickOnCard,
-  userId,
-  onDelete,
-  candelete,
-  onEdit,
-  canEdit,
-  onLike,
-  disLike,
-}) => {
-  const isLoggedIn = useSelector(
-    (bigPieBigState) => bigPieBigState.authSlice.isLoggedIn
-  );
-
-  const handleDeleteBtnClick = (event) => {
-    event.stopPropagation();
-    onDelete(id);
-  };
-
-  const handleEditBtnClick = (event) => {
-    event.stopPropagation();
-    onEdit(id);
-  };
-
-  const handleLikeBtnClick = (event) => {
-    event.stopPropagation();
-    onLike(id);
-  };
-
-  const handleClickCard = () => {
-    clickOnCard(id);
-  };
-
+const CardComponentExample = ({ img, title, subTitle, phone, address, id }) => {
   return (
-    <Card square raised onClick={handleClickCard}>
+    <Card square raised>
       <CardActionArea>
         <CardMedia component="img" image={img} />
       </CardActionArea>
@@ -88,20 +48,14 @@ const CardComponent = ({
         </Typography>
       </CardContent>
       <CardActions>
-        {candelete ? (
-          <Button sx={{ color: "#1b1b00" }} onClick={handleDeleteBtnClick}>
-            <DeleteRoundedIcon />
-          </Button>
-        ) : (
-          ""
-        )}
-        {canEdit ? (
-          <Button sx={{ color: "#008e24" }} onClick={handleEditBtnClick}>
-            <EditRoundedIcon />
-          </Button>
-        ) : (
-          ""
-        )}
+        <Button sx={{ color: "#1b1b00" }}>
+          <DeleteRoundedIcon />
+        </Button>
+
+        <Button sx={{ color: "#008e24" }}>
+          <EditRoundedIcon />
+        </Button>
+
         <Grid
           container
           direction="row"
@@ -111,30 +65,17 @@ const CardComponent = ({
           <Button sx={{ color: "#2196f3" }}>
             <LocalPhoneRoundedIcon />
           </Button>
-          {isLoggedIn ? (
-            disLike ? (
-              <Button sx={{ color: "#e91616" }} onClick={handleLikeBtnClick}>
-                <FavoriteRoundedIcon />
-              </Button>
-            ) : (
-              <Button>
-                {" "}
-                <ThumbDownIcon
-                  sx={{ color: "#606060" }}
-                  onClick={handleLikeBtnClick}
-                />
-              </Button>
-            )
-          ) : (
-            ""
-          )}
+
+          <Button sx={{ color: "#e91616" }}>
+            <FavoriteRoundedIcon />
+          </Button>
         </Grid>
       </CardActions>
     </Card>
   );
 };
 
-CardComponent.propTypes = {
+CardComponentExample.propTypes = {
   img: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   subTitle: PropTypes.string.isRequired,
@@ -149,8 +90,8 @@ CardComponent.propTypes = {
   onLike: PropTypes.func,
 };
 
-CardComponent.defaultProps = {
-  img: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K",
+CardComponentExample.defaultProps = {
+  img: "https://img.freepik.com/free-photo/bussiness-people-working-team-office_1303-22863.jpg?w=2000",
   title: "example title",
   subTitle: "example subtitle",
   phone: "0501234567",
@@ -160,4 +101,4 @@ CardComponent.defaultProps = {
   disLike: true,
 };
 
-export default CardComponent;
+export default CardComponentExample;
