@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Avatar from "@mui/material/Avatar";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
@@ -17,11 +16,10 @@ import GridItemComponent from "../components/Form/GridItemComponent";
 import CRComponent from "../components/Form/CRComponent";
 import SubmitComponent from "../components/Form/SubmitComponent";
 import CheckboxComponent from "../components/Form/CheckboxComponent";
-import jwt_decode from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { authActions } from "../redux/Auth";
 
 const UserProfilePage = () => {
-  const userId = jwt_decode(localStorage.getItem("token"))._id;
-
   const [inputstate] = useState({
     firstName: "",
     middleName: "",
@@ -43,6 +41,7 @@ const UserProfilePage = () => {
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const [btnDisable, setbtnDisable] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     axios
@@ -94,6 +93,12 @@ const UserProfilePage = () => {
         biz: checked,
       });
       toast.success("the user information has been updated");
+      if (checked === false) {
+        toast.success("Please login agin to update the application buttons");
+        localStorage.removeItem("token");
+        dispatch(authActions.logout());
+        navigate(ROUTES.LOGIN);
+      }
       navigate(ROUTES.HOME);
     } catch (err) {
       console.log("error from axios", err.response.data);
@@ -103,15 +108,13 @@ const UserProfilePage = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      console.log("useEffect 1");
       setValue(1);
-    }, 200);
+    }, 100);
     return () => clearTimeout(timer);
   }, [inputstate, setValue]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      console.log("useEffect 2");
       setValue(2);
     }, 1000);
     return () => clearTimeout(timer);
@@ -135,7 +138,6 @@ const UserProfilePage = () => {
       }
     }
     if (joiResponse) {
-      console.log("in joii", joiResponse);
       setbtnDisable(true);
     }
   };
@@ -196,32 +198,9 @@ const UserProfilePage = () => {
             onClick={handleBtnSubmitClick}
             disablebtn={btnDisable}
           />
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link
-                href="http://localhost:3000/login"
-                variant="body2"
-                underline="hover"
-              >
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
         </Box>
       </Box>
     </Container>
   );
 };
 export default UserProfilePage;
-// #### For User information update
-
-// ```http
-//   PUT /api/users/userInfo
-// #### For User information update
-
-// ```http
-//   PUT /api/users/userInfo/:id
-// #### For Information about a user
-
-// ```http
-//   GET /api/users/userInfo
