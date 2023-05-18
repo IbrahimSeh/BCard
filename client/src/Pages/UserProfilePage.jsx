@@ -20,7 +20,7 @@ import CheckboxComponent from "../components/Form/CheckboxComponent";
 import jwt_decode from "jwt-decode";
 
 const UserProfilePage = () => {
-  // const userId = jwt_decode(localStorage.getItem("token"))._id;
+  const userId = jwt_decode(localStorage.getItem("token"))._id;
 
   const [inputstate] = useState({
     firstName: "",
@@ -103,8 +103,17 @@ const UserProfilePage = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
+      console.log("useEffect 1");
       setValue(1);
-    }, 300);
+    }, 200);
+    return () => clearTimeout(timer);
+  }, [inputstate, setValue]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log("useEffect 2");
+      setValue(2);
+    }, 1000);
     return () => clearTimeout(timer);
   }, [inputstate, setValue]);
 
@@ -119,8 +128,14 @@ const UserProfilePage = () => {
   const updateState = (key, value) => {
     inputstate[key] = value;
     joiResponse = validateRegisterSchema(inputstate);
+    if (joiResponse !== null && joiResponse.hasOwnProperty("password")) {
+      delete joiResponse.password;
+      if (Object.keys(joiResponse).length === 0) {
+        joiResponse = null;
+      }
+    }
     if (joiResponse) {
-      console.log("in joi", joiResponse);
+      console.log("in joii", joiResponse);
       setbtnDisable(true);
     }
   };
