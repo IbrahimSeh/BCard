@@ -12,8 +12,6 @@ const SandBoxPage = () => {
         for (const key in JSON.parse(JSON.stringify(data))) {
           inputstate[key] = data[key];
         }
-        console.log("data = ", data.users);
-        console.log("inputstate = ", inputstate.users);
       })
       .catch((err) => {
         console.log("err from axioas", err);

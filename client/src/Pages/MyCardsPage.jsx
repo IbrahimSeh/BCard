@@ -43,13 +43,11 @@ const MyCardsPage = () => {
 
   const filterFunc = (data) => {
     if (!originalCardsArr && !data) {
-      // console.log("filterFunc - (!originalCardsArr && !data)");
       return;
     }
 
     let filter = "";
     if (qparams.filter) {
-      // console.log("qparams.filter = " + qparams.filter);
       filter = qparams.filter;
     }
 

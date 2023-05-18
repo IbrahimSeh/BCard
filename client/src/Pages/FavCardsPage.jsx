@@ -42,13 +42,11 @@ const FavCardsPage = () => {
 
   const filterFunc = (data) => {
     if (!originalCardsArr && !data) {
-      // console.log("filterFunc - (!originalCardsArr && !data)");
       return;
     }
 
     let filter = "";
     if (qparams.filter) {
-      // console.log("qparams.filter = " + qparams.filter);
       filter = qparams.filter;
     }
 
@@ -89,7 +87,6 @@ const FavCardsPage = () => {
   };
 
   const handleLikesFromInitialCardsArr = async (id) => {
-    console.log("in like func");
     try {
       await axios.patch("/cards/card-like/" + id); // /cards/:id
       window.location.reload();

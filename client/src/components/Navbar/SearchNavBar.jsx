@@ -53,12 +53,10 @@ const SearchNavBar = () => {
   const location = useLocation();
 
   const handleSearchChange = (e) => {
-    // console.log(e.target.value);
     setSearchInput(e.target.value);
   };
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    // console.log(location.pathname);
     navigate(`${location.pathname}?filter=${searchInput}`);
   };
 

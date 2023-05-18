@@ -19,7 +19,6 @@ const CardSpecification = () => {
           inputState[key] = data[key];
         }
         setuserlikeId(inputState.likes);
-        console.log("inputState = ", inputState);
       })
       .catch((err) => {
         console.log("err from axioas", err);
