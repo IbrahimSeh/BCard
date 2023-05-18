@@ -195,10 +195,9 @@ router.put("/:id", auth, async (req, res) => {
 router.patch("/bizNumber/:bizId", auth, async (req, res) => {
   try {
     let user = req.user;
-    if (!user.biz) {
-      console.log(
-        chalk.redBright("A non-business user attempted to create a card!")
-      );
+    // if (!user.biz) {
+    if (!user.isAdmin) {
+      console.log(chalk.redBright("need to be admin"));
       return res.status(403).json("You are not authorize to edit card!");
     }
     // bizNumber: await generateBizNum(),

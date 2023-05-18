@@ -17,7 +17,14 @@ import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
-const CardComponentExample = ({ img, title, subTitle, phone, address, id }) => {
+const CardComponentExample = ({
+  img,
+  title,
+  subTitle,
+  phone,
+  address,
+  bizNumber,
+}) => {
   return (
     <Card square raised>
       <CardActionArea>
@@ -44,7 +51,7 @@ const CardComponentExample = ({ img, title, subTitle, phone, address, id }) => {
           <Box fontWeight="fontWeightMedium" display="inline">
             Card Number :
           </Box>{" "}
-          {id}
+          {bizNumber}
         </Typography>
       </CardContent>
       <CardActions>
@@ -81,7 +88,7 @@ CardComponentExample.propTypes = {
   subTitle: PropTypes.string.isRequired,
   phone: PropTypes.string.isRequired,
   address: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
+  bizNumber: PropTypes.string.isRequired,
   onDelete: PropTypes.func,
   candelete: PropTypes.bool,
   onEdit: PropTypes.func,
@@ -96,7 +103,7 @@ CardComponentExample.defaultProps = {
   subTitle: "example subtitle",
   phone: "0501234567",
   address: "Country: C, State: ST, City: CT, Street: STR, houseNumber: HN",
-  id: "100000000000000000000000",
+  bizNumber: "100000000000000000000000",
   canEdit: false,
   disLike: true,
 };

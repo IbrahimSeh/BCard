@@ -58,6 +58,19 @@ router.post("/login", async (req, res) => {
   });
 });
 
+router.get("/getAllUsers", auth, async (req, res) => {
+  try {
+    console.log(req.user);
+    if (!req.user || !req.user.isAdmin) {
+      throw "you need to be admin!";
+    }
+    const users = await User.find().select(["-password", "-createdAt", "-__v"]);
+    res.json({ users });
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 router.get("/userInfo", auth, (req, res) => {
   let user = req.user;
 

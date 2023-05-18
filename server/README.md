@@ -503,11 +503,11 @@ request:
 #### To update a business card number
 
 ```http
-  PUT /api/cards/bizNumber/:bizId
+  PATCH /api/cards/bizNumber/:bizId
 ```
 
 must provide token
-\*\* must registered as biz user
+\*\* must registered as admin user
 You will need to provide a token to get an answer from this api
 
 #### To delete a business card
@@ -535,3 +535,12 @@ You will need to provide a token to get an answer from this api
 ```
 
 - must provide token
+
+#### To get all users
+
+```http
+  GET /api/users/getAllUsers
+```
+
+- must provide token
+- must be admin

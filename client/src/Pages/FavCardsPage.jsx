@@ -1,5 +1,5 @@
 import { Box, CircularProgress, Grid, Typography } from "@mui/material";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -140,7 +140,7 @@ const FavCardsPage = () => {
                 ", " +
                 item.houseNumber
               }
-              id={item._id}
+              id={item.bizNumber}
               clickOnCard={handleOnClick}
               userId={item.user_id}
               onDelete={handleDeleteFromInitialCardsArr}

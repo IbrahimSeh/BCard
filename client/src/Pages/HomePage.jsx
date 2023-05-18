@@ -132,7 +132,7 @@ const HomePage = () => {
                 ", " +
                 item.houseNumber
               }
-              id={item._id}
+              id={item.bizNumber}
               clickOnCard={handleOnClick}
               userId={item.user_id}
               onDelete={handleDeleteFromInitialCardsArr}
