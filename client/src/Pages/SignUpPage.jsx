@@ -19,8 +19,7 @@ import SubmitComponent from "../components/Form/SubmitComponent";
 import CheckboxComponent from "../components/Form/CheckboxComponent";
 
 const SignUpPage = () => {
-  console.log("SignUpPage");
-  const [inputstate, setinputstate] = useState({
+  const [inputstate] = useState({
     firstName: "",
     middleName: "",
     lastName: "",
@@ -34,7 +33,7 @@ const SignUpPage = () => {
     city: "",
     street: "",
     houseNumber: "",
-    zip: "",
+    zipCode: "",
   });
   let checkBoxState = false;
 
@@ -67,7 +66,7 @@ const SignUpPage = () => {
         city: inputstate.city,
         street: inputstate.street,
         houseNumber: inputstate.houseNumber,
-        zipCode: inputstate.zip,
+        zipCode: inputstate.zipCode,
         biz: checked,
       });
       toast.success("A new user has been created");

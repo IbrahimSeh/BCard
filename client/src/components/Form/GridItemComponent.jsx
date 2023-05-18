@@ -51,11 +51,17 @@ const GridItemComponent = ({ inputKey, inputValue, onChange }) => {
         return false;
       case "imgAlt":
         return false;
+      case "imageUrl":
+        return false;
+      case "imageAlt":
+        return false;
       case "middleName":
         return false;
       case "state":
         return false;
       case "zip":
+        return false;
+      case "zipCode":
         return false;
       case "web":
         return false;

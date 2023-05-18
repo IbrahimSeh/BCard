@@ -18,19 +18,19 @@ import CRComponent from "../components/Form/CRComponent";
 import SubmitComponent from "../components/Form/SubmitComponent";
 import CheckboxComponent from "../components/Form/CheckboxComponent";
 import jwt_decode from "jwt-decode";
-
+import bcrypt from "bcryptjs";
 const UserProfilePage = () => {
   const userId = jwt_decode(localStorage.getItem("token"))._id;
 
-  const [inputstate, setinputstate] = useState({
+  const [inputstate] = useState({
     firstName: "",
     middleName: "",
     lastName: "",
     phone: "",
     email: "",
     password: "",
-    imageUrl: "",
-    imageAlt: "",
+    imgAlt: "",
+    imgUrl: "",
     state: "",
     country: "",
     city: "",
@@ -38,7 +38,6 @@ const UserProfilePage = () => {
     houseNumber: "",
     zipCode: "",
   });
-  let checkBoxState = false;
 
   const [checked, setChecked] = useState(false);
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
@@ -52,11 +51,17 @@ const UserProfilePage = () => {
         for (const key in JSON.parse(JSON.stringify(data))) {
           inputstate[key] = data[key];
         }
-        console.log("inputstate = ", inputstate);
+        inputstate.imgUrl = inputstate.imageUrl;
+        inputstate.imgAlt = inputstate.imageAlt;
+        inputstate.zipCode += "";
         setChecked(inputstate.biz);
+        // console.log("inputstate = ", inputstate);
+
         delete inputstate.isAdmin;
         delete inputstate.biz;
         delete inputstate._id;
+        delete inputstate.imageUrl;
+        delete inputstate.imageAlt;
       })
       .catch((err) => {
         console.log("err from axioas", err);
@@ -64,9 +69,50 @@ const UserProfilePage = () => {
       });
   }, [inputstate]);
 
+  let hashedPassword;
+  // Encryption of the string password
+  bcrypt.genSalt(10, function (err, Salt) {
+    // The bcrypt is used for encrypting password.
+    bcrypt.hash(inputstate.password, Salt, function (err, hash) {
+      if (err) {
+        return console.log("Cannot encrypt");
+      }
+
+      hashedPassword = hash;
+      console.log("hash = ", hash);
+
+      bcrypt.compare(
+        inputstate.password,
+        "$2a$10$2Rt0dSb4vtZLEvwJihg/MuNhjd.CVmQ036XSZe/.C4BrhRcBmgh7i",
+        async function (err, isMatch) {
+          // Comparing the original password to
+          // encrypted password
+          if (isMatch) {
+            console.log("Encrypted password is: ", inputstate.password);
+            console.log("Decrypted password is: ", hashedPassword);
+          }
+
+          if (!isMatch) {
+            // If password doesn't match the following
+            // message will be sent
+            console.log(
+              hashedPassword + " is not encryption of " + inputstate.password
+            );
+          }
+        }
+      );
+    });
+  });
+
+  console.log(
+    "pass DB = $2a$10$2Rt0dSb4vtZLEvwJihg/MuNhjd.CVmQ036XSZe/.C4BrhRcBmgh7i"
+  );
+
+  //yosef password in DB
+  //$2a$10$2Rt0dSb4vtZLEvwJihg/MuNhjd.CVmQ036XSZe/.C4BrhRcBmgh7i
+
   let joiResponse;
   const handleBtnSubmitClick = async (ev) => {
-    setChecked(checkBoxState);
     try {
       setInputsErrorsState(joiResponse);
       if (joiResponse) {
@@ -80,15 +126,15 @@ const UserProfilePage = () => {
         lastName: inputstate.lastName,
         phone: inputstate.phone,
         email: inputstate.email,
-        password: inputstate.password,
-        imageUrl: inputstate.imageUrl,
-        imageAlt: inputstate.imageAlt,
+        password: hashedPassword,
+        imageUrl: inputstate.imgUrl,
+        imageAlt: inputstate.imgAlt,
         state: inputstate.state,
         country: inputstate.country,
         city: inputstate.city,
         street: inputstate.street,
         houseNumber: inputstate.houseNumber,
-        zipCode: inputstate.zip,
+        zipCode: inputstate.zipCode,
         biz: checked,
       });
       toast.success("the user information has been updated");
@@ -115,8 +161,7 @@ const UserProfilePage = () => {
     }
   };
   const updatecheckBoxState = (value) => {
-    checkBoxState = value;
-    setChecked(value); //buggggggggggggggggggggg
+    setChecked(value);
   };
 
   return (
@@ -133,7 +178,7 @@ const UserProfilePage = () => {
           <AppRegistrationIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          REGISTER
+          USER PROFILE EDIT
         </Typography>
 
         <Box component="div" noValidate sx={{ mt: 3 }}>
@@ -142,7 +187,7 @@ const UserProfilePage = () => {
               <Grid item xs={12} sm={6} key={Math.random() + Date.now()}>
                 <GridItemComponent
                   inputKey={key}
-                  inputValue={value}
+                  inputValue={inputstate[key] + ""}
                   onChange={updateState}
                 />
                 {inputsErrorsState && inputsErrorsState[key] && (

@@ -7,9 +7,9 @@ import ExtendedCardComponent from "./ExtendedCardComponent";
 
 const CardSpecification = () => {
   let qparams = useQueryParams();
-  const [inputState, setInputState] = useState({});
+  const [inputState] = useState({});
   const [userlikeId, setuserlikeId] = useState([]);
-  const [value, setValue] = useState(0);
+  const [setValue] = useState(0);
 
   useEffect(() => {
     axios
@@ -33,7 +33,7 @@ const CardSpecification = () => {
       setValue(1);
     }, 500);
     return () => clearTimeout(timer);
-  }, []);
+  }, [setValue, inputState]);
 
   return (
     <Box mt={3}>

@@ -1,8 +1,16 @@
 import { Checkbox, FormControlLabel, Grid } from "@mui/material";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 const CheckboxComponent = ({ isChecked, passCheckBoxFromChildToParent }) => {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(isChecked);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setChecked(isChecked);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [isChecked]);
+
   const handleCheckBoxChange = (event) => {
     setChecked(event.target.checked);
     passCheckBoxFromChildToParent(event.target.checked);

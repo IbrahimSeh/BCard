@@ -1,6 +1,6 @@
 import { Alert, Box, Container, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -13,9 +13,9 @@ import useQueryParams from "../../hooks/useQueryParams";
 
 const CardEdit = () => {
   let qparams = useQueryParams();
-  const [value, setValue] = useState(0); // integer state
+  const [setValue] = useState(0); // integer state
 
-  const [inputState, setInputState] = useState({
+  const [inputState] = useState({
     title: "",
     subTitle: "",
     description: "",
@@ -33,7 +33,7 @@ const CardEdit = () => {
   });
 
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
-  const [btnDisable, setbtnDisable] = useState(false);
+  const [btnDisable, setbtnDisable] = useState(true);
   let joiResponse;
   const navigate = useNavigate();
 
@@ -47,6 +47,7 @@ const CardEdit = () => {
         }
         inputState.url = inputState.image.url;
         inputState.alt = inputState.image.alt;
+        inputState.zipCode += "";
         delete inputState._id;
         delete inputState.image;
         delete inputState.createdAt;
@@ -107,16 +108,12 @@ const CardEdit = () => {
       setValue(1);
     }, 500);
     return () => clearTimeout(timer);
-  }, []);
+  }, [inputState, setValue]);
 
   const updateState = (key, value) => {
-    console.log("updat");
     inputState[key] = value;
     joiResponse = validateCardSchema(inputState);
-    if (joiResponse) {
-      console.log("joiResponse = ", joiResponse);
-      setbtnDisable(true);
-    } else {
+    if (!joiResponse) {
       setbtnDisable(false);
     }
   };

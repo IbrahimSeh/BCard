@@ -11,7 +11,7 @@ import CRComponent from "../Form/CRComponent";
 import GridItemComponent from "../Form/GridItemComponent";
 
 const CreateCard = () => {
-  const [inputState, setInputState] = useState({
+  const [inputState] = useState({
     title: "",
     subTitle: "",
     description: "",
