@@ -18,9 +18,9 @@ import CRComponent from "../components/Form/CRComponent";
 import SubmitComponent from "../components/Form/SubmitComponent";
 import CheckboxComponent from "../components/Form/CheckboxComponent";
 import jwt_decode from "jwt-decode";
-import bcrypt from "bcryptjs";
+
 const UserProfilePage = () => {
-  const userId = jwt_decode(localStorage.getItem("token"))._id;
+  // const userId = jwt_decode(localStorage.getItem("token"))._id;
 
   const [inputstate] = useState({
     firstName: "",
@@ -38,10 +38,10 @@ const UserProfilePage = () => {
     houseNumber: "",
     zipCode: "",
   });
-
+  const [value, setValue] = useState(0);
   const [checked, setChecked] = useState(false);
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
-  const [btnDisable, setbtnDisable] = useState(true);
+  const [btnDisable, setbtnDisable] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,12 +51,11 @@ const UserProfilePage = () => {
         for (const key in JSON.parse(JSON.stringify(data))) {
           inputstate[key] = data[key];
         }
+        inputstate.zipCode += "";
         inputstate.imgUrl = inputstate.imageUrl;
         inputstate.imgAlt = inputstate.imageAlt;
-        inputstate.zipCode += "";
         setChecked(inputstate.biz);
-        // console.log("inputstate = ", inputstate);
-
+        delete inputstate.password;
         delete inputstate.isAdmin;
         delete inputstate.biz;
         delete inputstate._id;
@@ -69,48 +68,6 @@ const UserProfilePage = () => {
       });
   }, [inputstate]);
 
-  let hashedPassword;
-  // Encryption of the string password
-  bcrypt.genSalt(10, function (err, Salt) {
-    // The bcrypt is used for encrypting password.
-    bcrypt.hash(inputstate.password, Salt, function (err, hash) {
-      if (err) {
-        return console.log("Cannot encrypt");
-      }
-
-      hashedPassword = hash;
-      console.log("hash = ", hash);
-
-      bcrypt.compare(
-        inputstate.password,
-        "$2a$10$2Rt0dSb4vtZLEvwJihg/MuNhjd.CVmQ036XSZe/.C4BrhRcBmgh7i",
-        async function (err, isMatch) {
-          // Comparing the original password to
-          // encrypted password
-          if (isMatch) {
-            console.log("Encrypted password is: ", inputstate.password);
-            console.log("Decrypted password is: ", hashedPassword);
-          }
-
-          if (!isMatch) {
-            // If password doesn't match the following
-            // message will be sent
-            console.log(
-              hashedPassword + " is not encryption of " + inputstate.password
-            );
-          }
-        }
-      );
-    });
-  });
-
-  console.log(
-    "pass DB = $2a$10$2Rt0dSb4vtZLEvwJihg/MuNhjd.CVmQ036XSZe/.C4BrhRcBmgh7i"
-  );
-
-  //yosef password in DB
-  //$2a$10$2Rt0dSb4vtZLEvwJihg/MuNhjd.CVmQ036XSZe/.C4BrhRcBmgh7i
-
   let joiResponse;
   const handleBtnSubmitClick = async (ev) => {
     try {
@@ -120,13 +77,12 @@ const UserProfilePage = () => {
         return;
       }
 
-      await axios.put("/users/userInfo/" + userId, {
+      await axios.put("/users/userInfo/", {
         firstName: inputstate.firstName,
         middleName: inputstate.middleName,
         lastName: inputstate.lastName,
         phone: inputstate.phone,
         email: inputstate.email,
-        password: hashedPassword,
         imageUrl: inputstate.imgUrl,
         imageAlt: inputstate.imgAlt,
         state: inputstate.state,
@@ -138,12 +94,19 @@ const UserProfilePage = () => {
         biz: checked,
       });
       toast.success("the user information has been updated");
-      navigate(ROUTES.LOGIN);
+      navigate(ROUTES.HOME);
     } catch (err) {
       console.log("error from axios", err.response.data);
       toast.error("the user has been not updated");
     }
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setValue(1);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [inputstate, setValue]);
 
   const handleBtnCancelClick = () => {
     navigate(ROUTES.HOME);
@@ -156,8 +119,9 @@ const UserProfilePage = () => {
   const updateState = (key, value) => {
     inputstate[key] = value;
     joiResponse = validateRegisterSchema(inputstate);
-    if (!joiResponse) {
-      setbtnDisable(false);
+    if (joiResponse) {
+      console.log("in joi", joiResponse);
+      setbtnDisable(true);
     }
   };
   const updatecheckBoxState = (value) => {

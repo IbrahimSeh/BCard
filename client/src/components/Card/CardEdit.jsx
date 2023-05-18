@@ -13,7 +13,7 @@ import useQueryParams from "../../hooks/useQueryParams";
 
 const CardEdit = () => {
   let qparams = useQueryParams();
-  const [setValue] = useState(0); // integer state
+  const [value, setValue] = useState(0); // integer state
 
   const [inputState] = useState({
     title: "",
