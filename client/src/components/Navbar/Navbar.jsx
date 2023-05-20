@@ -8,7 +8,7 @@ import axios from "axios";
 
 import ROUTES from "../../routes/ROUTES";
 import NavLinkComponent from "./NavLinkComponent";
-import { authActions } from "../../redux/Auth";
+import { authActions } from "../../redux/auth";
 import logoutAvatar from "../../assets/images/logout.png";
 import HumborgerNavbar from "./HumborgerNavbar";
 import SwithMode from "./SwithMode";
