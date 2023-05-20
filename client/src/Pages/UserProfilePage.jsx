@@ -17,7 +17,7 @@ import CRComponent from "../components/Form/CRComponent";
 import SubmitComponent from "../components/Form/SubmitComponent";
 import CheckboxComponent from "../components/Form/CheckboxComponent";
 import { useDispatch } from "react-redux";
-import { authActions } from "../redux/Auth";
+import { authActions } from "../redux/auth";
 
 const UserProfilePage = () => {
   const [inputstate] = useState({
